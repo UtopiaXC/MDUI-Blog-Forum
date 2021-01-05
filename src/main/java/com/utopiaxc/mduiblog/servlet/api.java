@@ -27,8 +27,16 @@ public class api extends HttpServlet {
         PrintWriter printWriter = response.getWriter();
         try {
             String function = request.getParameter("function");
-            if ("".equals(function)) {
-
+            if ("login_check".equals(function)) {
+                FastJsonUtils.doResponse(200,
+                        "API Called Successfully",
+                        ApiUtil.login_check(request),
+                        printWriter);
+            }else if("register".equals(function)){
+                FastJsonUtils.doResponse(200,
+                        "API Called Successfully",
+                        ApiUtil.register(request),
+                        printWriter);
             } else {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("Parameter", function);
