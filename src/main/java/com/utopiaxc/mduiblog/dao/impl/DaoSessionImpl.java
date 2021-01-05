@@ -1,5 +1,6 @@
 package com.utopiaxc.mduiblog.dao.impl;
 
+import com.utopiaxc.mduiblog.bean.BeanRegisterUser;
 import com.utopiaxc.mduiblog.bean.BeanSession;
 import com.utopiaxc.mduiblog.dao.DaoSession;
 import com.utopiaxc.mduiblog.utils.DatabaseConnection;
@@ -30,5 +31,21 @@ public class DaoSessionImpl implements DaoSession {
             return null;
         }
         return null;
+    }
+
+    @Override
+    public void do_login(String token, BeanSession beanSession) {
+        try{
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "INSERT INTO `session` (session_user_id,session_token,session_ip,session_stime,session_etime)VALUES(?,?,?,?,?)");
+            preparedStatement.setString(1,beanSession.getSession_user_id());
+            preparedStatement.setString(2,beanSession.getSession_token());
+            preparedStatement.setString(3,beanSession.getSession_ip());
+            preparedStatement.setString(4,beanSession.getSession_stime());
+            preparedStatement.setString(5,beanSession.getSession_etime());
+            preparedStatement.execute();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

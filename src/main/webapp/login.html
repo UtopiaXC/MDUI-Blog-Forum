@@ -108,6 +108,9 @@
 <div id="drawing_progress" class="mdui-progress">
     <div class="mdui-progress-indeterminate"></div>
 </div>
+<div id="login_progress" class="mdui-progress" style="display: none">
+    <div class="mdui-progress-indeterminate"></div>
+</div>
 
 <div class="mdui-container doc-container">
     <div class="mdui-row">
@@ -151,10 +154,51 @@
 <script src="https://cdn.jsdelivr.net/npm/holderjs@2.9.7/holder.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/blueimp-md5/2.18.0/js/md5.js"></script>
 
 <script src="js/render.js"></script>
 <script src="js/contents.js"></script>
 <script>
+    $("#drawing_progress").hide();
 
+
+    function login(){
+        let username=$("#username");
+        let password=$("#password");
+        if (username.val()===''||password.val()==='') {
+            mdui.alert("您有未填写项目","提醒")
+            return false;
+        }
+        $("#login_progress").show();
+        $("#login").attr("disabled","true");
+        $.ajax({
+            url:api,
+            type:"post",
+            dataType:"json",
+            data:{
+                'function':'login',
+                'username':username.val(),
+                'password':md5(password.val()),
+            },
+            success:function (result){
+                $("#login").removeAttr("disabled");
+                $("#login_progress").hide();
+                if (result.data.is_succeed==="false"){
+                    username.val("");
+                    password.val("");
+                    mdui.alert("密码或账号错误","警告");
+                }
+                else if (result.data.is_succeed==="true"){
+                    window.location.href="user_center.html";
+                }
+                else
+                    mdui.alert("未知错误","抱歉");
+            },
+            error:function (){
+                $("#login").removeAttr("disabled");
+                $("#login_progress").hide();
+            }
+        })
+    }
 </script>
 </html>

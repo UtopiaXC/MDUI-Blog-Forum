@@ -7,12 +7,14 @@
 package com.utopiaxc.mduiblog.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.utopiaxc.mduiblog.bean.BeanRegisterUser;
 import com.utopiaxc.mduiblog.service.ServiceRegisterUser;
 import com.utopiaxc.mduiblog.service.ServiceSession;
 import com.utopiaxc.mduiblog.service.impl.ServiceRegisterUserImpl;
 import com.utopiaxc.mduiblog.service.impl.ServiceSessionImpl;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class ApiUtil {
 
@@ -32,7 +34,7 @@ public class ApiUtil {
         //返回的数据
         JSONObject data=new JSONObject();
         //获得并返回登录检查数据
-        if (serviceSession.isLogin(request))
+        if (serviceSession.is_login(request))
             data.put("is_succeed","true");
         else
             data.put("is_succeed","false");
@@ -60,5 +62,24 @@ public class ApiUtil {
             data.put("is_succeed", "false");
         }
         return data;
+    }
+
+    public static JSONObject login(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        //连接Service层
+        ServiceRegisterUser serviceRegisterUser=new ServiceRegisterUserImpl();
+        ServiceSession serviceSession=new ServiceSessionImpl();
+
+        BeanRegisterUser beanRegisterUser=serviceRegisterUser.do_login(request);
+        if (beanRegisterUser!=null){
+            serviceSession.do_login(beanRegisterUser,response,request);
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","true");
+            return data;
+        }else{
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            return data;
+        }
+
     }
 }

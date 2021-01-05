@@ -23,4 +23,12 @@ public class ServiceRegisterUserImpl implements ServiceRegisterUser {
         beanRegisterUser.setUser_password(Encryption.md5("#*#*4636"+request.getParameter("password")+"*#*#"));
         return daoRegisterUser.do_register(beanRegisterUser);
     }
+
+    @Override
+    public BeanRegisterUser do_login(HttpServletRequest request) {
+        BeanRegisterUser beanRegisterUser=new BeanRegisterUser();
+        beanRegisterUser.setUser_name(request.getParameter("username"));
+        beanRegisterUser.setUser_password(Encryption.md5("#*#*4636"+request.getParameter("password")+"*#*#"));
+        return daoRegisterUser.do_login(beanRegisterUser);
+    }
 }
