@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 public class DaoRegisterUserImpl implements DaoRegisterUser {
     DatabaseConnection databaseConnection;
@@ -68,6 +69,45 @@ public class DaoRegisterUserImpl implements DaoRegisterUser {
             return beanRegisterUser1;
         }catch (Exception e){
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Vector<BeanRegisterUser> get_random_users() {
+        try{
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "SELECT user_id,user_name FROM register_user WHERE user_group='user' ORDER BY RAND() LIMIT 5");
+            ResultSet resultSet=preparedStatement.executeQuery();
+            Vector<BeanRegisterUser> users=new Vector<>();
+            while (resultSet.next()){
+                BeanRegisterUser beanRegisterUser=new BeanRegisterUser();
+                beanRegisterUser.setUser_id(resultSet.getString("user_id"));
+                beanRegisterUser.setUser_name(resultSet.getString("user_name"));
+                users.add(beanRegisterUser);
+            }
+            return users;
+        }catch (Exception e){
+            return new Vector<>();
+        }
+    }
+
+    @Override
+    public BeanRegisterUser get_user_by_id(String article_user_id) {
+        try{
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "SELECT user_id,user_name FROM register_user WHERE user_id=?");
+            preparedStatement.setString(1,article_user_id);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            if (resultSet.next()){
+                BeanRegisterUser beanRegisterUser=new BeanRegisterUser();
+                beanRegisterUser.setUser_name(resultSet.getString("user_name"));
+                beanRegisterUser.setUser_id(resultSet.getString("user_id"));
+                return beanRegisterUser;
+            }
+
+            return null;
+        }catch (Exception e){
             return null;
         }
     }

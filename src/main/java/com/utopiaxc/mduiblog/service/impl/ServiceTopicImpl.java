@@ -26,4 +26,9 @@ public class ServiceTopicImpl implements ServiceTopic {
     public Vector<BeanTopic> get_index_topics() {
         return daoTopic.get_index_topics();
     }
+
+    @Override
+    public BeanTopic get_topic_by_id(String article_topic_id) {
+        return daoTopic.get_topic_by_id(article_topic_id);
+    }
 }

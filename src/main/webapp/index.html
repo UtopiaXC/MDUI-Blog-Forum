@@ -81,7 +81,7 @@
                 <a href="fans.html" class="mdui-list-item mdui-ripple ">我的粉丝</a>
             </div>
         </div>
-        <div class="mdui-collapse-item" onclick="window.location.href='notifications'">
+        <div class="mdui-collapse-item" onclick="window.location.href='notifications.html'">
             <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-red">&#xe7f4;</i>
                 <div class="mdui-list-item-content">通知</div>
@@ -135,10 +135,10 @@
         </div>
         <div class="items-wrapper">
             <div class="items-container">
-                <div class="items mdui-card"><a class="header mdui-ripple" href="">
+                <div class="items mdui-card"><a class="header mdui-ripple" href="latest_articles.html">
                     <div class="mdui-text-color-theme-secondary">最新文章</div>
                     <i class="mdui-icon material-icons mdui-text-color-theme">arrow_forward</i></a>
-                    <div class="content">
+                    <div class="content" id="latest_articles">
                         <div class="mc-loading mdui-hidden">
                             <div class="mdui-spinner">
                                 <div class="mdui-spinner-layer ">
@@ -154,17 +154,15 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="item" href="">
-                            <div class="title mdui-text-color-theme-text">测试标题</div>
-                        </a>
+
                     </div>
                 </div>
             </div>
             <div class="items-container">
-                <div class="items mdui-card"><a class="header mdui-ripple" href="">
+                <div class="items mdui-card"><a class="header mdui-ripple" href="hot_articles.html">
                     <div class="mdui-text-color-theme-secondary">热门文章</div>
                     <i class="mdui-icon material-icons mdui-text-color-theme">arrow_forward</i></a>
-                    <div class="content">
+                    <div class="content" id="hot_articles">
                         <div class="mc-loading mdui-hidden">
                             <div class="mdui-spinner">
                                 <div class="mdui-spinner-layer ">
@@ -180,19 +178,16 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="item" href="">
-                            <div class="title mdui-text-color-theme-text">测试标题</div>
-                        </a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="items-wrapper">
             <div class="items-container">
-                <div class="items mdui-card"><a class="header mdui-ripple" href="">
+                <div class="items mdui-card"><a class="header mdui-ripple" href="announcement.html">
                     <div class="mdui-text-color-theme-secondary">最新公告</div>
                     <i class="mdui-icon material-icons mdui-text-color-theme">arrow_forward</i></a>
-                    <div class="content">
+                    <div class="content" id="announcement">
                         <div class="mc-loading mdui-hidden">
                             <div class="mdui-spinner">
                                 <div class="mdui-spinner-layer ">
@@ -208,17 +203,14 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="item" href="">
-                            <div class="title mdui-text-color-theme-text">测试标题</div>
-                        </a>
                     </div>
                 </div>
             </div>
             <div class="items-container">
-                <div class="items mdui-card"><a class="header mdui-ripple" href="">
+                <div class="items mdui-card"><a class="header mdui-ripple" href="users_list.html">
                     <div class="mdui-text-color-theme-secondary">活跃用户</div>
                     <i class="mdui-icon material-icons mdui-text-color-theme">arrow_forward</i></a>
-                    <div class="content">
+                    <div class="content" id="activity_users">
                         <div class="mc-loading mdui-hidden">
                             <div class="mdui-spinner">
                                 <div class="mdui-spinner-layer ">
@@ -234,9 +226,6 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="item" href="">
-                            <div class="title mdui-text-color-theme-text">测试标题</div>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -287,9 +276,46 @@ $.ajax({
                 "                    </div>" +
                 "                </div>");
         }
+        if (result.data.articles_count!==0) {
+            for (i = 0; i < result.data.articles_count; i++) {
+                $("#latest_articles").append('<a class="item" href="article.html?article_id=' + result.data.articles[i].article_id + '">\n' +
+                    '                            <div class="title mdui-text-color-theme-text">' + result.data.articles[i].article_user_id + '：' + result.data.articles[i].article_title + '</div>\n' +
+                    '                        </a>')
+            }
+        }else{
+            $("#latest_articles").append('<a class="item" href="#">\n' +
+                '                            <div class="title mdui-text-color-theme-text">暂无文章</div>\n' +
+                '                        </a>')
+        }
+        if (result.data.hot_articles_count!==0) {
+            for (i = 0; i < result.data.hot_articles_count; i++) {
+                $("#hot_articles").append('<a class="item" href="article.html?article_id=' + result.data.hot_articles[i].article_id + '">\n' +
+                    '                            <div class="title mdui-text-color-theme-text">' + result.data.hot_articles[i].article_user_id + '：' + result.data.hot_articles[i].article_title + '</div>\n' +
+                    '                        </a>')
+            }
+        }else{
+            $("#hot_articles").append('<a class="item" href="#">\n' +
+                '                            <div class="title mdui-text-color-theme-text">暂无文章</div>\n' +
+                '                        </a>')
+        }
+        if (result.data.users_count!==0) {
+            for (i = 0; i < result.data.users_count; i++) {
+                $("#activity_users").append('<a class="item" href="user_center.html?user_id=' + result.data.users[i].user_id + '">\n' +
+                    '                            <div class="title mdui-text-color-theme-text">' + result.data.users[i].user_name+'</div>\n' +
+                    '                        </a>')
+            }
+        }else{
+            $("#activity_users").append('<a class="item" href="#">\n' +
+                '                            <div class="title mdui-text-color-theme-text">暂无活跃用户</div>\n' +
+                '                        </a>')
+        }
+        $("#announcement").append('<a class="item" href="#">\n' +
+            '                            <div class="title mdui-text-color-theme-text">暂不支持</div>\n' +
+            '                        </a>')
+        $("#drawing_progress").hide();
     },
     error: function (){
-
+        $("#drawing_progress").hide();
     }
 })
 

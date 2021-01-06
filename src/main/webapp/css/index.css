@@ -395,7 +395,7 @@ body.mdui-locked {
     border-left: 4px solid rgba(0, 0, 0, .12)
 }
 
-@media only screen and (max-width: 599.9px) {
+@media only screen and (max-width: 800px) {
     .mdui-typo blockquote {
         margin: 1em 0
     }
@@ -1749,7 +1749,7 @@ body.mdui-loaded .mdui-drawer {
     }
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mdui-drawer {
         transform: translateX(-290px)
     }
@@ -2495,7 +2495,7 @@ body.mdui-loaded .mdui-drawer {
     font-size: 14px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mdui-fab-extended span {
         display: none
     }
@@ -2570,7 +2570,7 @@ body.mdui-loaded .mdui-drawer {
     padding: 4px 4px 0 !important
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-index > .header {
         margin: 0;
         padding: 0 16px !important
@@ -2612,7 +2612,7 @@ body.mdui-loaded .mdui-drawer {
     background-color: #fff
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-index .topics-wrapper .arrow-left, #page-index .topics-wrapper .arrow-right {
         display: none
     }
@@ -2834,7 +2834,7 @@ body.mdui-loaded .mdui-drawer {
     background-size: contain
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-topic-item .item {
         margin-bottom: 8px
     }
@@ -2933,13 +2933,13 @@ body.mdui-loaded .mdui-drawer {
     }
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-index .items-container {
         padding: 0
     }
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-index .items-container .items {
         border-right: none;
         border-left: none;
@@ -2970,7 +2970,7 @@ body.mdui-loaded .mdui-drawer {
     }
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-index .items-container .item {
         border-top: none
     }
@@ -3311,7 +3311,7 @@ body.mdui-loaded .mdui-drawer {
     height: calc(100% - 156px)
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-editor {
         right: 0;
         bottom: 0;
@@ -3434,7 +3434,7 @@ body.mdui-loaded .mdui-drawer {
     text-overflow: ellipsis
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-list-item .title {
         font-size: 15px
     }
@@ -3477,7 +3477,7 @@ body.mdui-loaded .mdui-drawer {
     display: block
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-list-item {
         padding-left: 50px
     }
@@ -3653,7 +3653,7 @@ body.mdui-loaded .mdui-drawer {
     min-height: 148px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-question .question {
         padding: 0 16px;
         border-right: none;
@@ -3760,7 +3760,7 @@ body.mdui-loaded .mdui-drawer {
     width: 236px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-list-header .title {
         font-size: 16px
     }
@@ -3823,7 +3823,7 @@ body.mdui-loaded .mdui-drawer {
     }
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-question .answers .item, .mc-comments .item {
         padding-right: 16px;
         padding-left: 16px
@@ -3883,7 +3883,7 @@ body.mdui-loaded .mdui-drawer {
     margin-left: 16px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-article .article {
         padding: 0 16px;
         border-right: none;
@@ -3918,7 +3918,7 @@ body.mdui-loaded .mdui-drawer {
     margin-bottom: 20px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-comments-page .mc-list-header {
         margin-top: 20px;
         margin-bottom: 12px;
@@ -3945,7 +3945,7 @@ body.mdui-loaded .mdui-drawer {
     margin-bottom: 24px !important
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-comments-page .comments-wrapper {
         border-right: none;
         border-left: none;
@@ -3991,7 +3991,7 @@ body.mdui-loaded .mdui-drawer {
     border-top-color: hsla(0, 0%, 100%, .12)
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-comments-page .new-comment-fixed .new-comment {
         padding-right: 16px !important;
         padding-left: 16px !important;
@@ -4005,7 +4005,7 @@ body.mdui-loaded .mdui-drawer {
     min-height: 148px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-comments .comments {
         border-right: none;
         border-left: none;
@@ -4132,7 +4132,7 @@ body.mdui-loaded .mdui-drawer {
     }
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-comments .item .item {
         padding-right: 0;
         padding-left: 40px
@@ -4269,7 +4269,7 @@ body.mdui-loaded .mdui-drawer {
     }
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-topic .topic {
         padding: 16px;
         border-right: none;
@@ -4321,7 +4321,7 @@ body.mdui-loaded .mdui-drawer {
     border-top-color: hsla(0, 0%, 100%, .12)
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-topic .contexts, #page-user .contexts {
         border-right: none;
         border-left: none;
@@ -4347,7 +4347,7 @@ body.mdui-loaded .mdui-drawer {
     margin-bottom: 16px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-users .item {
         margin-bottom: 8px
     }
@@ -4369,7 +4369,7 @@ body.mdui-loaded .mdui-drawer {
     border-radius: 50%
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-users .item .avatar {
         width: 80px;
         height: 80px;
@@ -4400,7 +4400,7 @@ body.mdui-loaded .mdui-drawer {
     line-height: 20px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-users .item .headline {
         margin: 8px 0
     }
@@ -4558,7 +4558,7 @@ body.mdui-loaded .mdui-drawer {
     background-color: hsla(0, 0%, 100%, .12)
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-user .user, #page-user .user .cover {
         border-radius: 0
     }
@@ -4717,7 +4717,7 @@ body.mdui-loaded .mdui-drawer {
     max-width: 800px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-articles .item-list, #page-notifications .item-list, #page-questions .item-list {
         border: 1px solid rgba(0, 0, 0, .12);
         border-right: none;
@@ -4741,7 +4741,7 @@ body.mdui-loaded .mdui-drawer {
     padding: 20px 24px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-notifications .item {
         padding-right: 16px;
         padding-left: 16px
@@ -4758,7 +4758,7 @@ body.mdui-loaded .mdui-drawer {
     content: " "
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-notifications .item:after {
         right: 16px;
         left: 16px
@@ -4839,7 +4839,7 @@ body.mdui-loaded .mdui-drawer {
     color: #8ab4f8
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-notifications .item .delete, #page-notifications .item .more {
         right: 20px
     }
@@ -4849,7 +4849,7 @@ body.mdui-loaded .mdui-drawer {
     bottom: 25px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     #page-notifications .item .more {
         display: block
     }
@@ -4889,7 +4889,7 @@ body.mdui-loaded .mdui-drawer {
     font-size: 24px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-appbar .toolbar .headline {
         overflow: hidden
     }
@@ -4900,7 +4900,7 @@ body.mdui-loaded .mdui-drawer {
     letter-spacing: .02em
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-appbar .toolbar .title {
         display: none
     }
@@ -4918,7 +4918,7 @@ body.mdui-loaded .mdui-drawer {
     }
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-appbar .toolbar .login, .mc-appbar .toolbar .register {
         margin-right: 8px !important;
         padding: 0 8px
@@ -5016,7 +5016,7 @@ body.mdui-loaded .mdui-drawer {
     margin-left: 16px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-appbar .toolbar .notification {
         width: 40px;
         min-width: 40px;
@@ -5049,7 +5049,7 @@ body.mdui-loaded .mdui-drawer {
     transition-property: background-color, box-shadow
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-appbar .toolbar .search-bar {
         display: none
     }
@@ -5121,7 +5121,7 @@ body.mdui-loaded .mdui-drawer {
     display: none
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-appbar .toolbar .search-icon {
         display: flex;
         width: 40px;
@@ -5283,7 +5283,7 @@ body.mdui-loaded .mdui-drawer {
     background-color: #525252 !important
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-account {
         position: fixed !important;
         top: 0 !important;
@@ -5366,7 +5366,7 @@ body.mdui-loaded .mdui-drawer {
     display: none
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-users-dialog {
         position: fixed !important;
         top: 0 !important;
@@ -5468,7 +5468,7 @@ body.mdui-loaded .mdui-drawer {
     max-height: 94%
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-comments-dialog {
         top: 0;
         left: 0;
@@ -5510,7 +5510,7 @@ body.mdui-loaded .mdui-drawer {
     }
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-comments-dialog .mc-list-header {
         padding-left: 8px
     }
@@ -5559,7 +5559,7 @@ body.mdui-loaded .mdui-drawer {
     padding-left: 24px
 }
 
-@media (max-width: 599.9px) {
+@media (max-width: 800px) {
     .mc-comments-dialog .comments > .item, .mc-comments-dialog .mc-comments > .new-comment {
         padding-right: 16px;
         padding-left: 16px

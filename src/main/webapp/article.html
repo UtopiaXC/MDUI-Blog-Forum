@@ -1,10 +1,360 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title id="page_title">{{page_title}}</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/vs.min.css"/>
+    <link rel="stylesheet" href="css/highlight-vs2015-style.css"/>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/style.css"/>
+
 </head>
-<body>
+
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-loaded">
+
+<header id="header" class="mc-appbar mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme toolbar">
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+              mdui-drawer="{target: '#slider', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
+        <a href="/" class="mdui-typo-headline mdui-hidden-xs" id="site_name">{{ site_name }}</a>
+
+        <form method="get" class="search-bar" action="">
+            <button type="button" class="back mdui-btn mdui-btn-icon"><i
+                    class="mdui-icon material-icons mdui-text-color-theme-icon">arrow_back</i></button>
+            <button type="submit" class="submit mdui-btn mdui-btn-icon"><i
+                    class="mdui-icon material-icons mdui-text-color-theme-icon">search</i></button>
+            <label for="search"></label>
+            <input id="search" type="text" placeholder="搜索文章">
+
+            <button type="button" class="cancel mdui-btn mdui-btn-icon"><i
+                    class="mdui-icon material-icons mdui-text-color-theme-icon">close</i></button>
+        </form>
+
+        <div class="mdui-toolbar-spacer"></div>
+
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-theme'}"
+              mdui-tooltip="{content: '设置主题'}"><i class="mdui-icon material-icons">color_lens</i></span>
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+              onclick="window.location.href='notification.html'"
+              mdui-tooltip="{content: '通知中心'}"><i class="mdui-icon material-icons">&#xe7f4;</i></span>
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+              onclick="window.location.href='user_center.html'"
+              mdui-tooltip="{content: '用户'}"><i class="mdui-icon material-icons">account_circle</i></span>
+    </div>
+</header>
+
+<div class="mdui-drawer" id="slider" open.mdui.collapse>
+    <div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px;">
+        <div class="mdui-collapse-item" onclick="window.location.href='/'">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">&#xe88a;</i>
+                <div class="mdui-list-item-content">主页</div>
+            </div>
+        </div>
+        <div class="mdui-collapse-item" onclick="window.location.href='topics.html'">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">&#xe866;</i>
+                <div class="mdui-list-item-content">话题板块</div>
+            </div>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-collapse-item ">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-brown">&#xe853;</i>
+                <div class="mdui-list-item-content">我的账户</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list" v-html="account" id="account">
+                {{ account }}
+            </div>
+        </div>
+        <div class="mdui-collapse-item ">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">&#xe8d3;</i>
+                <div class="mdui-list-item-content">人脉</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list">
+                <a href="subscription.html" class="mdui-list-item mdui-ripple ">我关注的</a>
+                <a href="fans.html" class="mdui-list-item mdui-ripple ">我的粉丝</a>
+            </div>
+        </div>
+        <div class="mdui-collapse-item" onclick="window.location.href='notifications.html'">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-red">&#xe7f4;</i>
+                <div class="mdui-list-item-content">通知</div>
+            </div>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-collapse-item" onclick="window.location.href='about.html'">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">&#xe887;</i>
+                <div class="mdui-list-item-content">关于本站</div>
+            </div>
+        </div>
+        <div class="mdui-collapse-item" onclick="window.location.href='privacy.html'">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-grey">&#xe899;</i>
+                <div class="mdui-list-item-content">隐私权</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a id="anchor-top"></a>
+
+<div id="drawing_progress" class="mdui-progress">
+    <div class="mdui-progress-indeterminate"></div>
+</div>
+
+<div id="page-article" class="mdui-container">
+    <div class="mc-nav">
+        <button onclick="window.location.href='index.html'" class="back mdui-btn mdui-color-theme mdui-ripple">
+            <i class="mdui-icon mdui-icon-left material-icons">arrow_back</i>主页
+        </button>
+    </div>
+    <div class="mdui-card mdui-card-shadow article">
+        <h1 class="title" id="article_title"></h1>
+        <div class="mc-user-line">
+            <div class="mc-user-popover">
+                <a class="username user-popover-trigger mdui-text-color-theme-text" id="article_user"></a>
+                <div class="headline mdui-text-color-theme-secondary"></div>
+                <div class="more">
+                    <span class="time mdui-text-color-theme-secondary" id="article_edit_time"></span>
+                </div>
+                <div class="popover mdui-menu">
+                    <div class="mdui-spinner">
+                        <div class="mdui-spinner-layer ">
+                            <div class="mdui-spinner-circle-clipper mdui-spinner-left">
+                                <div class="mdui-spinner-circle"></div>
+                            </div>
+                            <div class="mdui-spinner-gap-patch">
+                                <div class="mdui-spinner-circle"></div>
+                            </div>
+                            <div class="mdui-spinner-circle-clipper mdui-spinner-right">
+                                <div class="mdui-spinner-circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdui-typo content" id="article_content"></div>
+        <div class="mc-topics-bar">
+            <a class="mdui-chip mdui-ripple" id="article_topic_link">
+                <span class="mdui-chip-title" id="article_topic"></span>
+            </a>
+        </div>
+        <div class="actions">
+            <div class="mc-vote">
+                <button class="mc-icon-button mdui-btn mdui-btn-icon mdui-btn-outlined"
+                        mdui-tooltip="{content: '点赞', delay: 300}"><span class="badge" id="article_likes_count"></span><i
+                        class="mdui-icon material-icons mdui-text-color-theme-icon">thumb_up</i></button>
+            </div>
+            <div class="flex-grow"></div>
+            <div class="mc-options-button">
+                <button class="mdui-btn mdui-btn-icon mdui-text-color-theme-icon mdui-ripple">
+                    <i class="mdui-icon material-icons">report_problem</i>
+                </button>
+            </div>
+        </div>
+        <div class="mc-loading mdui-hidden">
+            <div class="mdui-spinner">
+                <div class="mdui-spinner-layer ">
+                    <div class="mdui-spinner-circle-clipper mdui-spinner-left">
+                        <div class="mdui-spinner-circle"></div>
+                    </div>
+                    <div class="mdui-spinner-gap-patch">
+                        <div class="mdui-spinner-circle"></div>
+                    </div>
+                    <div class="mdui-spinner-circle-clipper mdui-spinner-right">
+                        <div class="mdui-spinner-circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mc-comments-page">
+        <div class="mc-comments">
+            <div class="mc-list-header">
+                <div class="title">共 8 条评论</div>
+            </div>
+            <div class="comments-wrapper">
+                <div class="mdui-card comments">
+                    <div class="item">
+                        <div class="mc-user-line">
+                            <div class="mc-user-popover">
+                                <a class="username user-popover-trigger mdui-text-color-theme-text"
+                                   href="user_center.html">评论测试用户</a>
+                                <div class="more">
+                                    <span class="time mdui-text-color-theme-secondary">2020-09-20</span>
+                                </div>
+                                <div class="popover mdui-menu">
+                                    <div class="mdui-spinner">
+                                        <div class="mdui-spinner-layer ">
+                                            <div class="mdui-spinner-circle-clipper mdui-spinner-left">
+                                                <div class="mdui-spinner-circle"></div>
+                                            </div>
+                                            <div class="mdui-spinner-gap-patch">
+                                                <div class="mdui-spinner-circle"></div>
+                                            </div>
+                                            <div class="mdui-spinner-circle-clipper mdui-spinner-right">
+                                                <div class="mdui-spinner-circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content mdui-typo"><p>评论测试内容</p></div>
+                        <div class="actions">
+                            <div class="mc-vote">
+                                <button class="mc-icon-button mdui-btn mdui-btn-icon mdui-btn-outlined"
+                                        mdui-tooltip="{content: '点赞', delay: 300}"><span class="badge">3</span><i
+                                        class="mdui-icon material-icons mdui-text-color-theme-icon">thumb_up</i>
+                                </button>
+                            </div>
+                            <button class="mc-icon-button mdui-btn mdui-btn-icon mdui-btn-outlined"
+                                    mdui-tooltip="{content: '发表回复', delay: 300}"><i
+                                    class="mdui-icon material-icons mdui-text-color-theme-icon">reply</i></button>
+                            <div class="flex-grow"></div>
+                            <div class="mc-options-button">
+                                <button class="mdui-btn mdui-btn-icon mdui-text-color-theme-icon mdui-ripple">
+                                    <i class="mdui-icon material-icons">report_problem</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mc-loading mdui-hidden">
+                    <div class="mdui-spinner">
+                        <div class="mdui-spinner-layer ">
+                            <div class="mdui-spinner-circle-clipper mdui-spinner-left">
+                                <div class="mdui-spinner-circle"></div>
+                            </div>
+                            <div class="mdui-spinner-gap-patch">
+                                <div class="mdui-spinner-circle"></div>
+                            </div>
+                            <div class="mdui-spinner-circle-clipper mdui-spinner-right">
+                                <div class="mdui-spinner-circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mc-loaded">已加载完所有数据</div>
+            </div>
+        </div>
+        <div class="new-comment-fixed mdui-headroom">
+            <div class="mdui-container">
+                <div class="mdui-textfield new-comment">
+                    <label for="comment"></label>
+                    <textarea id="comment" class="mdui-textfield-input" placeholder="写下你的评论..."></textarea>
+                    <button class="submit mdui-btn mdui-btn-raised mdui-color-theme">发布</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mc-report-dialog mdui-dialog" style="top: 471px; display: block; height: 428px;">
+    <div class="mdui-dialog-title"><span>举报</span>
+        <button class="mdui-btn mdui-btn-icon mdui-ripple">
+            <i class="mdui-icon material-icons mdui-text-color-theme-icon">close</i>
+        </button>
+    </div>
+    <form class="mdui-dialog-content" method="post" style="height: 312px;">
+        <div class="mdui-list">
+            <label class="mdui-list-item">
+                <div class="mdui-radio">
+                    <input type="radio" name="reason" value="垃圾广告信息">
+                    <i class="mdui-radio-icon"></i>
+                </div>
+                <div class="mdui-list-item-content">垃圾广告信息</div>
+            </label>
+            <label class="mdui-list-item">
+                <div class="mdui-radio"><input type="radio" name="reason" value="不友善行为"><i class="mdui-radio-icon"></i>
+                </div>
+                <div class="mdui-list-item-content">不友善行为</div>
+            </label>
+            <label class="mdui-list-item">
+                <div class="mdui-radio"><input type="radio" name="reason" value="有害信息"><i class="mdui-radio-icon"></i>
+                </div>
+                <div class="mdui-list-item-content">有害信息</div>
+            </label
+            <label class="mdui-list-item">
+                <div class="mdui-radio"><input type="radio" name="reason" value="涉嫌侵权"><i class="mdui-radio-icon"></i>
+                </div>
+                <div class="mdui-list-item-content">涉嫌侵权</div>
+            </label>
+            <label class="mdui-list-item">
+                <div class="mdui-radio"><input type="radio" name="reason" value="诱导赞同、关注等行为"><i
+                        class="mdui-radio-icon"></i>
+                </div>
+                <div class="mdui-list-item-content">诱导赞同、关注等行为</div>
+            </label>
+            <label class="mdui-list-item">
+                <div class="mdui-radio"><input type="radio" name="reason" value="其他原因"><i class="mdui-radio-icon"></i>
+                </div>
+                <div class="mdui-list-item-content">其他原因</div>
+            </label>
+        </div>
+    </form>
+    <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="true">取消</button>
+        <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="true">举报</button>
+    </div>
+</div>
+
+<div class="doc-footer-nav">
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="rights" id="footer" v-html="footer">
+                {{ footer }}
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/holderjs@2.9.7/holder.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"></script>
+
+<script src="js/render.js"></script>
+<script src="js/contents.js"></script>
+<script>
+$.ajax({
+    url:api,
+    method:"post",
+    dataType:"json",
+    data:{
+        'function':'get_article',
+        'article_id':$.getUrlParam("article_id"),
+    },
+    success: function (result){
+        if (result.data.is_succeed==="false"){
+            window.location.href="404.html";
+        }
+        $("#article_title").append(result.data.article_title);
+        let article_user=$("#article_user");
+        article_user.append(result.data.article_user_name);
+        article_user.attr("href","user_center.html?user_id="+result.data.article_user_id);
+        $("#article_edit_time").append(result.data.article_edit_time);
+        $("#article_content").append(result.data.article_content);
+        $("#article_topic_link").attr("href","topic.html?topic_id="+result.data.article_topic_id);
+        $("#article_topic").append(result.data.article_topic_name);
+        $("#article_likes_count").append(result.data.article_like_count);
+
+    },
+    error:function (){
+
+    }
+})
+</script>
 </html>

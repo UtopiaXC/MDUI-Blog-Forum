@@ -9,6 +9,7 @@ import com.utopiaxc.mduiblog.service.ServiceRegisterUser;
 import com.utopiaxc.mduiblog.utils.Encryption;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Vector;
 
 public class ServiceRegisterUserImpl implements ServiceRegisterUser {
     DaoRegisterUser daoRegisterUser;
@@ -30,5 +31,15 @@ public class ServiceRegisterUserImpl implements ServiceRegisterUser {
         beanRegisterUser.setUser_name(request.getParameter("username"));
         beanRegisterUser.setUser_password(Encryption.md5("#*#*4636"+request.getParameter("password")+"*#*#"));
         return daoRegisterUser.do_login(beanRegisterUser);
+    }
+
+    @Override
+    public Vector<BeanRegisterUser> get_random_users() {
+        return daoRegisterUser.get_random_users();
+    }
+
+    @Override
+    public BeanRegisterUser get_user_by_id(String article_user_id) {
+        return daoRegisterUser.get_user_by_id(article_user_id);
     }
 }

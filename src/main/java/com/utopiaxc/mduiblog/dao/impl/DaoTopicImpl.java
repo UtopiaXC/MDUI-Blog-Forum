@@ -78,4 +78,24 @@ public class DaoTopicImpl implements DaoTopic {
             return null;
         }
     }
+
+    @Override
+    public BeanTopic get_topic_by_id(String article_topic_id) {
+        try{
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "SELECT topic_id, topic_picture, topic_title FROM topic WHERE topic_id=?");
+            preparedStatement.setString(1,article_topic_id);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return new BeanTopic(
+                        resultSet.getString("topic_id"),
+                        resultSet.getString("topic_picture"),
+                        resultSet.getString("topic_title")
+                );
+            }else
+                return null;
+        }catch (Exception e){
+            return null;
+        }
+    }
 }
