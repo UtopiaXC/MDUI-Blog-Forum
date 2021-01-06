@@ -197,3 +197,90 @@ $("#search").keypress(function (e) {
         window.location.href="search.html?key="+$('#search').val()
     }
 })
+
+function login(){
+    let username=$("#username");
+    let password=$("#password");
+    if (username.val()===''||password.val()==='') {
+        mdui.alert("您有未填写项目","提醒")
+        return false;
+    }
+    $("#login_progress").show();
+    $("#login").attr("disabled","true");
+    $.ajax({
+        url:api,
+        type:"post",
+        dataType:"json",
+        data:{
+            'function':'login',
+            'username':username.val(),
+            'password':md5(password.val()),
+        },
+        success:function (result){
+            $("#login").removeAttr("disabled");
+            $("#login_progress").hide();
+            if (result.data.is_succeed==="false"){
+                username.val("");
+                password.val("");
+                mdui.alert("密码或账号错误","警告");
+            }
+            else if (result.data.is_succeed==="true"){
+                window.location.href="index.html";
+            }
+            else
+                mdui.alert("未知错误","抱歉");
+        },
+        error:function (){
+            $("#login").removeAttr("disabled");
+            $("#login_progress").hide();
+        }
+    })
+}
+
+function logout() {
+    mdui.confirm('是否确定退出？', '提醒', function () {
+        $.ajax({
+            type: "POST",
+            url: api,
+            dataType: "json",
+            data: {
+                "function": "logout"
+            },
+            success: function () {
+                document.cookie = "token" + "=" + "" + "; " + "-1";
+                window.location = "/";
+            }
+        });
+    });
+}
+
+function login_check(){
+    let res=false;
+    $.ajax({
+        url:api,
+        method:"post",
+        dataType:"json",
+        async:false,
+        data:{
+            'function':'login_check'
+        },
+        success:function (result){
+            if (result.data.is_succeed==="true"){
+                res=true
+            }
+        },
+        error:function (){
+            console.log("服务器异常！")
+        }
+    })
+    return res;
+}
+
+function add_article(){
+    if (!login_check()){
+        window.location.href="login.html";
+        return;
+    }
+    window.location.href="add_article.html";
+
+}

@@ -10,7 +10,18 @@
     <link rel="stylesheet" href="css/highlight-vs2015-style.css"/>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/style.css"/>
+    <style>
+        .w-e-menu {
+            z-index: 2 !important;
+        }
+        .w-e-text-container {
+            z-index: 1 !important;
+        }
 
+        .w-e-toolbar{
+            z-index: 3 !important;
+        }
+    </style>
 </head>
 
 <body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-loaded">
@@ -111,30 +122,34 @@
 <div id="login_progress" class="mdui-progress" style="display: none">
     <div class="mdui-progress-indeterminate"></div>
 </div>
-
 <div class="mdui-container doc-container">
-    <div class="mdui-row">
-        <div class="mdui-col-md-6 mdui-col-offset-md-3">
-            <h1 class="doc-title mdui-text-color-theme">登录</h1>
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                <label for="username" class="mdui-textfield-label">用户名或邮箱</label>
-                <input id="username" class="mdui-textfield-input" type="text" required/>
-                <div class="mdui-textfield-error">用户名或邮箱不能为空</div>
+    <h1 class="doc-title mdui-text-color-theme">添加文章</h1>
+    <div class="mdui-divider"></div>
+    <div class="mdui-row" style="margin-top: 30px">
+        <div class="mdui-col-md-12" style="margin-top: 30px">
+            <div class="mdui-textfield">
+                <label>
+                    <input id="title" class="mdui-textfield-input" type="text" placeholder="文章标题"/>
+                </label>
             </div>
-
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                <label for="password" class="mdui-textfield-label">密码</label>
-                <input id="password" class="mdui-textfield-input" type="password" required/>
-                <div class="mdui-textfield-error">密码不能为空</div>
-            </div>
-            <button onclick="window.location.href='find_password.html'" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">前往密码找回</button>
-            <button onclick="window.location.href='register.html'" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">前往注册</button>
-            <button id="login" onclick="login();" style="float: right" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">登录</button>
         </div>
-
-
+        <div class="mdui-col-md-12" style="margin-top: 30px">
+            <label for="index_option">选择话题：</label>
+            <select id="index_option" class="mdui-select">
+            </select>
+        </div>
+        <div class="mdui-col-xs-12" style="margin-top: 30px">
+            <div id="editor"></div>
+        </div>
+    </div>
+    <div class="mdui-row-xs-1" style="margin-top: 30px">
+        <div class="mdui-col">
+            <button class="mdui-btn mdui-btn-block mdui-ripple" onclick="submit_article();">提交</button>
+        </div>
     </div>
 </div>
+
+
 
 <div class="doc-footer-nav">
     <div class="mdui-container">
@@ -155,10 +170,91 @@
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/blueimp-md5/2.18.0/js/md5.js"></script>
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/wangeditor@4.5.3/dist/wangEditor.min.js"></script>
 <script src="js/render.js"></script>
 <script src="js/contents.js"></script>
 <script>
-    $("#drawing_progress").hide();
+    $.ajax({
+        url:api,
+        method:"post",
+        dataType:"json",
+        data:{
+            'function':'login_check'
+        },
+        success:function (result){
+            if (result.data.is_succeed==="false"){
+                window.location.href="login.html";
+            }else{
+                do_load();
+            }
+        },
+        error:function (){
+            mdui.alert("服务器异常！")
+        }
+    })
+
+    function do_load(){
+        $.ajax({
+            url: api,
+            type: "post",
+            dataType: "json",
+            data: {
+                'function': 'get_topics',
+            },
+            success: function (result) {
+                let index_option = new mdui.Select('#index_option');
+                for (i = 0; i < result.data.topics_count; i++) {
+                    $("#index_option").append('<option value="' + result.data.topics[i].topic_title + '">' + result.data.topics[i].topic_title + '</option>');
+
+                }
+                index_option.handleUpdate()
+                $("#drawing_progress").hide()
+            },
+            error: function () {
+                console.log("API Called Faultily");
+            }
+        });
+    }
+
+    const editor = new window.wangEditor('#editor')
+    editor.config.height = 500
+
+    editor.create()
+
+    function submit_article() {
+        let article_content = editor.txt.html().toString()
+        console.log(article_content)
+        let article_title=$("#title").val()
+        let index=$('#index_option').find("option:selected").val()
+        if (article_title===""){
+            mdui.alert("标题为必填项目")
+            return
+        }
+        $.ajax({
+            url:api,
+            type:"post",
+            dataType:"json",
+            data:{
+                'function':'add_article',
+                'article_content':article_content,
+                'article_title':article_title,
+                'article_topic_name':index,
+            },
+            success:function (result){
+                if (result.data.is_succeed==='false'){
+                    mdui.alert(result.data.error_cause,"警告")
+                }
+                else if(result.data.is_succeed==='true'){
+                    window.location.href="article.html?article_id="+result.data.article_id
+                }
+                else
+                    mdui.alert("未知错误","提醒")
+            },
+            error:function () {
+                mdui.alert("未知错误","提醒")
+            }
+        })
+    }
+
 </script>
 </html>

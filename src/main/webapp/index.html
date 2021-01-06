@@ -26,7 +26,7 @@
             <button type="submit" class="submit mdui-btn mdui-btn-icon"><i
                     class="mdui-icon material-icons mdui-text-color-theme-icon">search</i></button>
             <label for="search"></label>
-                <input id="search" type="text" placeholder="搜索文章">
+            <input id="search" type="text" placeholder="搜索文章">
 
             <button type="button" class="cancel mdui-btn mdui-btn-icon"><i
                     class="mdui-icon material-icons mdui-text-color-theme-icon">close</i></button>
@@ -39,7 +39,8 @@
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
               onclick="window.location.href='notification.html'"
               mdui-tooltip="{content: '通知中心'}"><i class="mdui-icon material-icons">&#xe7f4;</i></span>
-        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="window.location.href='user_center.html'"
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+              onclick="window.location.href='user_center.html'"
               mdui-tooltip="{content: '用户'}"><i class="mdui-icon material-icons">account_circle</i></span>
     </div>
 </header>
@@ -110,26 +111,11 @@
 
 <div class="mdui-appbar-with-toolbar mg-app">
     <div id="page-index" class="mdui-container"><a class="header mdui-ripple" href="">
-        <div class="mdui-text-color-theme-secondary">浏览全部</div>
+        <div class="mdui-text-color-theme-secondary">浏览全部话题</div>
         <i class="mdui-icon material-icons">arrow_forward</i></a>
         <div class="topics-wrapper">
-            <div class="topics">
-                <div class="mc-topic-item item-inner">
-                    <div class="item mdui-card"
-                         style="background-image: url('https://cdn.w3cbus.com/community.mdclub.org/upload/topic-cover/c9/f0/db92458f2de44f70a31dc283bb2de918.png?x-oss-process=image/resize,m_fill,w_360,h_202,limit_0/format,webp');">
-                        <a class="mdui-ripple info" href="">
-                            <div class="name mdui-text-color-theme-text">全部博文</div>
-                        </a>
-                    </div>
-                </div>
-                <div class="mc-topic-item item-inner">
-                    <div class="item mdui-card"
-                         style="background-image: url('https://cdn.w3cbus.com/community.mdclub.org/upload/topic-cover/c9/f0/db92458f2de44f70a31dc283bb2de918.png?x-oss-process=image/resize,m_fill,w_360,h_202,limit_0/format,webp');">
-                        <a class="mdui-ripple info" href="">
-                            <div class="name mdui-text-color-theme-text">公告</div>
-                        </a>
-                    </div>
-                </div>
+            <div class="topics" id="topics">
+
             </div>
             <div class="mc-loading mdui-hidden">
                 <div class="mdui-spinner">
@@ -197,9 +183,9 @@
                         <a class="item" href="">
                             <div class="title mdui-text-color-theme-text">测试标题</div>
                         </a>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
         <div class="items-wrapper">
             <div class="items-container">
@@ -258,7 +244,8 @@
     </div>
 </div>
 
-<button class="mdui-fab mdui-fab-fixed mdui-fab-extended mdui-ripple mdui-color-theme"><i class="mdui-icon material-icons">add</i><span>写文章</span></button>
+<button onclick="add_article()" class="mdui-fab mdui-fab-fixed mdui-fab-extended mdui-ripple mdui-color-theme">
+    <i class="mdui-icon material-icons">add</i><span>写文章</span></button>
 
 <div class="doc-footer-nav">
     <div class="mdui-container">
@@ -282,8 +269,29 @@
 <script src="js/render.js"></script>
 <script src="js/contents.js"></script>
 <script>
+$.ajax({
+    url:api,
+    method:"post",
+    dataType:"json",
+    data:{
+        "function":"get_index"
+    },
+    success : function (result){
+        for (i=0;i<result.data.topics_count;i++){
+            $("#topics").append("<div class='mc-topic-item item-inner'>" +
+                "                    <div class='item mdui-card\'" +
+                "                         style='background-image: url("+result.data.topics[i].topic_picture+"); background-size:360px 150px'>" +
+                "                        <a class='mdui-ripple info' href='topic.html?topic_id="+result.data.topics[i].topic_id+"'>" +
+                "                            <div class='name mdui-text-color-theme-text'>"+result.data.topics[i].topic_title+"</div>" +
+                "                        </a>" +
+                "                    </div>" +
+                "                </div>");
+        }
+    },
+    error: function (){
 
-
+    }
+})
 
 </script>
 </html>
