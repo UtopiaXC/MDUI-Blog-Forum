@@ -17,4 +17,6 @@ public interface ServiceArticle {
     Vector<BeanArticle> draw_latest_articles();
 
     Vector<BeanArticle> draw_topic_articles(String topic_id);
+
+    Vector<BeanArticle> get_all_articles();
 }

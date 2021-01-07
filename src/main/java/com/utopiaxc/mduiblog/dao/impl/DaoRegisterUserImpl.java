@@ -108,6 +108,30 @@ public class DaoRegisterUserImpl implements DaoRegisterUser {
 
             return null;
         }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Vector<BeanRegisterUser> get_all_users() {
+        try {
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "SELECT user_id,user_name,user_email,user_banned,user_group FROM register_user WHERE user_group!='admin'");
+            ResultSet resultSet=preparedStatement.executeQuery();
+            Vector<BeanRegisterUser> beanRegisterUsers=new Vector<>();
+            while (resultSet.next()){
+                BeanRegisterUser beanRegisterUser=new BeanRegisterUser();
+                beanRegisterUser.setUser_id(resultSet.getString("user_id"));
+                beanRegisterUser.setUser_name(resultSet.getString("user_name"));
+                beanRegisterUser.setUser_email(resultSet.getString("user_email"));
+                beanRegisterUser.setUser_banned(resultSet.getString("user_banned"));
+                beanRegisterUser.setUser_group(resultSet.getString("user_group"));
+                beanRegisterUsers.add(beanRegisterUser);
+            }
+            return beanRegisterUsers;
+        }catch (Exception e){
+            e.printStackTrace();
             return null;
         }
     }

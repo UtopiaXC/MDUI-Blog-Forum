@@ -13,4 +13,6 @@ public interface ServiceRegisterUser {
     Vector<BeanRegisterUser> get_random_users();
 
     BeanRegisterUser get_user_by_id(String article_user_id);
+
+    Vector<BeanRegisterUser> get_all_users();
 }

@@ -284,3 +284,143 @@ function add_article(){
     window.location.href="add_article.html";
 
 }
+
+function draw_admin(){
+    $.ajax({
+        url:api,
+        method: "post",
+        dataType:"json",
+        data:{
+            "function":"draw_admin",
+        },
+        success:function (result){
+            //管理员用户信息设置
+            $("#admin_name").append(result.data.admin_name);
+
+            //网站信息设置
+            for (i=0;i<result.data.web_messages_count;i++){
+                if (result.data.web_messages[i].web_message_title==="title"){
+                    $("#web_title").val(result.data.web_messages[i].web_message_content);
+                }
+                if (result.data.web_messages[i].web_message_title==="footer"){
+                    $("#web_footer").val(result.data.web_messages[i].web_message_content);
+                }
+            }
+
+            //话题设置
+            for (i=0;i<result.data.topics_count;i++){
+                $("#topics").append('<div class="mdui-panel-item">\n' +
+                    '                    <div class="mdui-panel-item-header">\n' +
+                    '                        <div class="mdui-panel-item-title">'+result.data.topics[i].topic_title+'</div>\n' +
+                    '                        <div class="mdui-panel-item-summary">ID：<span id="topic_id_old_'+result.data.topics[i].topic_id+'">'+result.data.topics[i].topic_id+'</span></div>\n' +
+                    '                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>\n' +
+                    '                    </div>\n' +
+                    '                    <div class="mdui-panel-item-body">\n' +
+                    '                        <div class="mdui-textfield">\n' +
+                    '                            <label>\n' +
+                    '                                <input id="new_topic_title_'+result.data.topics[i].topic_id+'" class="mdui-textfield-input" type="text" placeholder="话题名" value="'+result.data.topics[i].topic_title+'"/>\n' +
+                    '                            </label>\n' +
+                    '                        </div>\n' +
+                    '                        <div class="mdui-textfield">\n' +
+                    '                            <label>\n' +
+                    '                                <input id="new_topic_pic_'+result.data.topics[i].topic_id+'" class="mdui-textfield-input" type="text" placeholder="话题封面" value="'+result.data.topics[i].topic_picture+'"/>\n' +
+                    '                            </label>\n' +
+                    '                        </div>\n' +
+                    '                        <div class="mdui-panel-item-actions">\n' +
+                    '                            <button id="button_cancel_new_topic_'+result.data.topics[i].topic_id+'" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消\n' +
+                    '                            </button>\n' +
+                    '                            <button onclick="delete_tpoic('+result.data.topics[i].topic_id+');" class="mdui-btn mdui-ripple">删除</button>\n' +
+                    '                            <button onclick="update_tpoic('+result.data.topics[i].topic_id+');" class="mdui-btn mdui-ripple">修改</button>\n' +
+                    '                        </div>\n' +
+                    '                    </div>\n' +
+                    '                </div>')
+            }
+
+            //文章管理设置
+            for (i=0;i<result.data.articles_count;i++){
+                $("#articles").append('<tr>\n' +
+                    '                        <td>'+result.data.articles[i].article_id+'</td>\n' +
+                    '                        <td>'+result.data.articles[i].article_title+'</td>\n' +
+                    '                        <td>'+result.data.articles[i].article_topic_id+'</td>\n' +
+                    '                        <td>'+result.data.articles[i].article_user_id+'</td>\n' +
+                    '                        <td>'+result.data.articles[i].article_submit_time+'</td>\n' +
+                    '                        <td>'+result.data.articles[i].article_edit_time+'</td>\n' +
+                    '                        <td style="cursor: pointer" onclick="delete_article('+result.data.articles[i].article_id+')"><i class="mdui-icon material-icons">clear</i></td>\n' +
+                    '                    </tr>');
+            }
+
+            //用户管理
+            for(i=0;i<result.data.users_count;i++){
+                $("#users").append('<tr>\n' +
+                    '                        <td>'+result.data.users[i].user_id+'</td>\n' +
+                    '                        <td>'+result.data.users[i].user_name+'</td>\n' +
+                    '                        <td>'+result.data.users[i].user_email+'</td>\n' +
+                    '                        <td>'+result.data.users[i].user_banned+'</td>\n' +
+                    '                        <td>'+result.data.users[i].user_group+'</td>\n' +
+                    '                        <td style="cursor: pointer" onclick="ban_user('+result.data.users[i].user_id+')"><i class="mdui-icon material-icons">do_not_disturb</i></td>\n' +
+                    '                    </tr>');
+            }
+        },
+        error:function (){
+
+        }
+    })
+}
+
+function add_new_topic(){
+    let topic_name=$("#new_topic_title").val();
+    let topic_picture=$("#new_topic_pic").val();
+    if (topic_name===""||topic_picture===""){
+        mdui.alert("请不要留空","抱歉");
+        return;
+    }
+    var pattern = /^(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+(jpg|png)$/;
+    if (!pattern.test(topic_picture)){
+        mdui.alert("请输入正确的图片地址","抱歉");
+        return;
+    }
+    $.ajax({
+        url:api,
+        method: "post",
+        dataType:"json",
+        data:{
+            "function":"add_new_topic",
+            "new_topic_title":topic_name,
+            "new_topic_pic":topic_picture
+        },
+        success:function (result){
+            if (result.data.is_succeed==="false"){
+                mdui.alert("话题已存在或服务器错误","抱歉")
+            }else{
+                $("#topics").append('<div class="mdui-panel-item">\n' +
+                    '                    <div class="mdui-panel-item-header">\n' +
+                    '                        <div class="mdui-panel-item-title">'+topic_name+'</div>\n' +
+                    '                        <div class="mdui-panel-item-summary">ID：<span id="topic_id_old_'+result.data.topic_id+'">'+result.data.topic_id+'</span></div>\n' +
+                    '                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>\n' +
+                    '                    </div>\n' +
+                    '                    <div class="mdui-panel-item-body">\n' +
+                    '                        <div class="mdui-textfield">\n' +
+                    '                            <label>\n' +
+                    '                                <input id="new_topic_title_'+result.data.topic_id+'" class="mdui-textfield-input" type="text" placeholder="话题名" value="'+topic_name+'"/>\n' +
+                    '                            </label>\n' +
+                    '                        </div>\n' +
+                    '                        <div class="mdui-textfield">\n' +
+                    '                            <label>\n' +
+                    '                                <input id="new_topic_pic_'+result.data.topic_id+'" class="mdui-textfield-input" type="text" placeholder="话题封面" value="'+topic_picture+'"/>\n' +
+                    '                            </label>\n' +
+                    '                        </div>\n' +
+                    '                        <div class="mdui-panel-item-actions">\n' +
+                    '                            <button id="button_cancel_new_topic_'+result.data.topic_id+'" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消\n' +
+                    '                            </button>\n' +
+                    '                            <button onclick="delete_tpoic('+result.data.topic_id+');" class="mdui-btn mdui-ripple">删除</button>\n' +
+                    '                            <button onclick="update_tpoic('+result.data.topic_id+');" class="mdui-btn mdui-ripple">修改</button>\n' +
+                    '                        </div>\n' +
+                    '                    </div>\n' +
+                    '                </div>')
+            }
+        },
+        error:function (){
+
+        }
+    })
+}

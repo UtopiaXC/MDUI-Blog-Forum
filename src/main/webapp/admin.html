@@ -115,7 +115,7 @@
                 <div class="mdui-panel-item">
                     <div class="mdui-panel-item-header">
                         <div class="mdui-panel-item-title">修改后台登录名</div>
-                        <div class="mdui-panel-item-summary"></div>
+                        <div class="mdui-panel-item-summary" id="admin_name">当前：</div>
                         <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
                     </div>
                     <div class="mdui-panel-item-body">
@@ -312,11 +312,43 @@
 <div id="article" class="mdui-container doc-container" style="display: none">
     <h1 class="doc-title mdui-text-color-theme">文章管理</h1>
     <div class="mdui-divider"></div>
-
+    <div class="mdui-row">
+        <div class="mdui-col-md-12">
+            <h2 class="doc-title mdui-text-color-theme">话题管理</h2>
+            <div class="mdui-panel" id="topics" mdui-panel>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">添加话题</div>
+                        <div class="mdui-panel-item-summary">文章必须发布在话题中</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="new_topic_title" class="mdui-textfield-input" type="text" placeholder="话题名"/>
+                            </label>
+                        </div>
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="new_topic_pic" class="mdui-textfield-input" type="text" placeholder="话题封面"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_new_topic" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="add_new_topic();" class="mdui-btn mdui-ripple">添加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <h2 class="doc-title mdui-text-color-theme">文章列表</h2>
     <div class="mdui-container">
         <div class="mdui-row">
             <div class="mdui-col-md-12">
-                <table id='articles' class="mdui-table">
+                <table class="mdui-table">
                     <thead>
                     <tr>
                         <td>文章ID</td>
@@ -328,16 +360,7 @@
                         <td>删除</td>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>标题</td>
-                        <td>话题</td>
-                        <td>作者</td>
-                        <td>2020-01-01 01:01</td>
-                        <td>2020-01-01 01:01</td>
-                        <td><i class="mdui-icon material-icons">clear</i></td>
-                    </tr>
+                    <tbody id="articles">
                     </tbody>
                 </table>
             </div>
@@ -350,7 +373,7 @@
     <div class="mdui-container">
         <div class="mdui-row">
             <div class="mdui-col-md-12">
-                <table id='users' class="mdui-table">
+                <table class="mdui-table">
                     <thead>
                     <tr>
                         <td>用户ID</td>
@@ -361,15 +384,8 @@
                         <td>解/封禁</td>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>admin</td>
-                        <td>admin@admin.com</td>
-                        <td>未封禁</td>
-                        <td>管理员</td>
-                        <td><i class="mdui-icon material-icons">do_not_disturb</i></td>
-                    </tr>
+                    <tbody id="users">
+
                     </tbody>
                 </table>
             </div>
@@ -515,7 +531,7 @@
         $("#" + page_id).show()
     }
 
-
+    draw_admin()
 
 </script>
 </html>

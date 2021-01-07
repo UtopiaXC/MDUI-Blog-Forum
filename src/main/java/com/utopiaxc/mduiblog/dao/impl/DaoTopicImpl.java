@@ -95,6 +95,30 @@ public class DaoTopicImpl implements DaoTopic {
             }else
                 return null;
         }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public BeanTopic add_topic(BeanTopic beanTopic) {
+        try {
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "INSERT INTO topic (topic_title,topic_picture)VALUES(?,?) ");
+            preparedStatement.setString(1,beanTopic.getTopic_title());
+            preparedStatement.setString(2,beanTopic.getTopic_picture());
+            preparedStatement.execute();
+            preparedStatement=databaseConnection
+                    .getConnection()
+                    .prepareStatement("SELECT LAST_INSERT_ID()");
+            ResultSet resultSet=preparedStatement.executeQuery();
+            if(resultSet.next()){
+                beanTopic.setTopic_id(resultSet.getString("LAST_INSERT_ID()"));
+                return beanTopic;
+            }
+            return null;
+        }catch (Exception e){
+            e.printStackTrace();
             return null;
         }
     }

@@ -45,4 +45,9 @@ public class ServiceArticleImpl implements ServiceArticle {
     public Vector<BeanArticle> draw_topic_articles(String topic_id) {
         return daoArticle.draw_topic_articles(topic_id);
     }
+
+    @Override
+    public Vector<BeanArticle> get_all_articles() {
+        return daoArticle.get_all_articles();
+    }
 }

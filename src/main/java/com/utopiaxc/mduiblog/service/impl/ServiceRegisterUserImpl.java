@@ -42,4 +42,9 @@ public class ServiceRegisterUserImpl implements ServiceRegisterUser {
     public BeanRegisterUser get_user_by_id(String article_user_id) {
         return daoRegisterUser.get_user_by_id(article_user_id);
     }
+
+    @Override
+    public Vector<BeanRegisterUser> get_all_users() {
+        return daoRegisterUser.get_all_users();
+    }
 }

@@ -367,4 +367,116 @@ public class ApiUtil {
             return data;
         }
     }
+
+    public static JSONObject draw_admin(HttpServletRequest request) {
+        ServiceRegisterUser serviceRegisterUser;
+        ServiceSession serviceSession;
+        ServiceWebMessage serviceWebMessage;
+        ServiceTopic serviceTopic;
+        ServiceArticle serviceArticle;
+        ServiceArticleReport serviceArticleReport;
+        ServiceArticleCommentReport serviceArticleCommentReport;
+        ServiceUserReport serviceUserReport;
+        try{
+            serviceRegisterUser=new ServiceRegisterUserImpl();
+            serviceSession=new ServiceSessionImpl();
+            serviceWebMessage=new ServiceWebMessageImpl();
+            serviceTopic=new ServiceTopicImpl();
+            serviceArticle=new ServiceArticleImpl();
+            serviceArticleReport=new ServiceArticleReportImpl();
+            serviceArticleCommentReport=new ServiceArticleCommentReportImpl();
+            serviceUserReport=new ServiceUserReportImpl();
+
+            if (!serviceSession.is_login_admin(request)){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","Not Admin Login");
+                return data;
+            }
+
+            BeanRegisterUser beanRegisterUser = serviceRegisterUser
+                            .get_user_by_id(serviceSession.get_logged_user(request).getSession_user_id());
+            if (beanRegisterUser==null){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","bean_admin_404");
+                return data;
+            }
+
+            Vector<BeanWebMessage> beanWebMessages=serviceWebMessage.get_web_messages();
+            if (beanWebMessages.size()==0){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","bean_web_message_404");
+                return data;
+            }
+
+            Vector<BeanTopic> beanTopics=serviceTopic.get_topics();
+            if (beanTopics==null){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","bean_topics_404");
+                return data;
+            }
+
+            Vector<BeanArticle> beanArticles=serviceArticle.get_all_articles();
+            if (beanArticles==null){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","bean_articles_404");
+                return data;
+            }
+            Vector<BeanRegisterUser> registerUsers=serviceRegisterUser.get_all_users();
+            if (registerUsers==null){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","bean_users_404");
+                return data;
+            }
+
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","true");
+            data.put("admin_name",beanRegisterUser.getUser_name());
+            data.put("web_messages_count",beanWebMessages.size());
+            data.put("web_messages",beanWebMessages.toArray());
+            data.put("topics_count",beanTopics.size());
+            data.put("topics",beanTopics.toArray());
+            data.put("articles_count",beanArticles.size());
+            data.put("articles",beanArticles.toArray());
+            data.put("users_count",registerUsers.size());
+            data.put("users",registerUsers.toArray());
+            return data;
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+    }
+
+    public static JSONObject add_new_topic(HttpServletRequest request) {
+        ServiceTopic serviceTopic;
+        try{
+            serviceTopic=new ServiceTopicImpl();
+            BeanTopic beanTopic=new BeanTopic();
+            beanTopic.setTopic_title(request.getParameter("new_topic_title"));
+            beanTopic.setTopic_picture(request.getParameter("new_topic_pic"));
+            BeanTopic beanTopicBack=serviceTopic.add_topic(beanTopic);
+            if (beanTopicBack==null){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","话题已存在或服务器错误");
+                return data;
+            }
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","true");
+            data.put("topic_id",beanTopic.getTopic_id());
+            return data;
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+    }
 }

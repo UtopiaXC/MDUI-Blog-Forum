@@ -12,4 +12,6 @@ public interface DaoTopic {
     Vector<BeanTopic> get_index_topics();
 
     BeanTopic get_topic_by_id(String article_topic_id);
+
+    BeanTopic add_topic(BeanTopic beanTopic);
 }

@@ -154,4 +154,27 @@ public class DaoArticleImpl implements DaoArticle {
             return new Vector<>();
         }
     }
+
+    @Override
+    public Vector<BeanArticle> get_all_articles() {
+        try{
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "SELECT article_id,article_title,topic_title,user_name,article_submit_time,article_edit_time FROM article,register_user,topic WHERE article_user_id=register_user.user_id AND article_topic_id=topic.topic_id");
+            ResultSet resultSet=preparedStatement.executeQuery();
+            Vector<BeanArticle> beanArticles=new Vector<>();
+            while (resultSet.next()){
+                BeanArticle beanArticle=new BeanArticle();
+                beanArticle.setArticle_id(resultSet.getString("article_id"));
+                beanArticle.setArticle_title(resultSet.getString("article_title"));
+                beanArticle.setArticle_topic_id(resultSet.getString("topic_title"));
+                beanArticle.setArticle_user_id(resultSet.getString("user_name"));
+                beanArticle.setArticle_submit_time(resultSet.getString("article_submit_time"));
+                beanArticle.setArticle_edit_time(resultSet.getString("article_edit_time"));
+                beanArticles.add(beanArticle);
+            }
+            return beanArticles;
+        }catch (Exception e){
+            return null;
+        }
+    }
 }
