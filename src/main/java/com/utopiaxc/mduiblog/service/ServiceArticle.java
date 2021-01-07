@@ -15,4 +15,6 @@ public interface ServiceArticle {
     BeanArticle get_article_bu_id(HttpServletRequest request);
 
     Vector<BeanArticle> draw_latest_articles();
+
+    Vector<BeanArticle> draw_topic_articles(String topic_id);
 }

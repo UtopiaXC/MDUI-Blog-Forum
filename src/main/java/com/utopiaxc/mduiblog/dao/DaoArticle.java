@@ -15,4 +15,6 @@ public interface DaoArticle {
     BeanArticle get_article_bu_id(String article_id);
 
     Vector<BeanArticle> draw_latest_articles();
+
+    Vector<BeanArticle> draw_topic_articles(String topic_id);
 }

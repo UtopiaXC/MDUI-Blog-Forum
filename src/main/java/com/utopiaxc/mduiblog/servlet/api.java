@@ -82,6 +82,17 @@ public class api extends HttpServlet {
                         "API Called Successfully",
                         ApiUtil.draw_latest_articles(request),
                         printWriter);
+            }
+            else if("draw_topics".equals(function)){
+                FastJsonUtils.doResponse(200,
+                        "API Called Successfully",
+                        ApiUtil.draw_topics(),
+                        printWriter);
+            }else if("draw_topic_article".equals(function)){
+                FastJsonUtils.doResponse(200,
+                        "API Called Successfully",
+                        ApiUtil.draw_topic_article(request),
+                        printWriter);
             }else {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("Parameter", function);

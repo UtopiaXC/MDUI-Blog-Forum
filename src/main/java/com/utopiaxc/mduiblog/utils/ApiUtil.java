@@ -36,8 +36,10 @@ public class ApiUtil {
         //返回的数据
         JSONObject data=new JSONObject();
         //获得并返回登录检查数据
-        if (serviceSession.is_login(request))
-            data.put("is_succeed","true");
+        if (serviceSession.is_login(request)) {
+            data.put("user_id",serviceSession.get_logged_user(request).getSession_user_id());
+            data.put("is_succeed", "true");
+        }
         else
             data.put("is_succeed","false");
         return data;
@@ -314,6 +316,45 @@ public class ApiUtil {
         try {
             serviceArticle=new ServiceArticleImpl();
             Vector<BeanArticle> beanArticles=serviceArticle.draw_latest_articles();
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("articles_count",beanArticles.size());
+            data.put("articles",beanArticles.toArray());
+            return data;
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+    }
+
+    public static JSONObject draw_topics() {
+        //连接Service层
+        ServiceTopic serviceTopic=null;
+        try {
+            serviceTopic=new ServiceTopicImpl();
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+
+        Vector<BeanTopic> topics=serviceTopic.get_topics();
+        JSONObject data=new JSONObject();
+        data.put("is_succeed","true");
+        data.put("topics",topics.toArray());
+        data.put("topics_count",topics.size());
+        return data;
+    }
+
+    public static JSONObject draw_topic_article(HttpServletRequest request) {
+        ServiceArticle serviceArticle;
+        String topic_id=request.getParameter("topic_id");
+        try {
+            serviceArticle=new ServiceArticleImpl();
+            Vector<BeanArticle> beanArticles=serviceArticle.draw_topic_articles(topic_id);
             JSONObject data=new JSONObject();
             data.put("is_succeed","false");
             data.put("articles_count",beanArticles.size());

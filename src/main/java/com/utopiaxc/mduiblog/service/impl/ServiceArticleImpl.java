@@ -40,4 +40,9 @@ public class ServiceArticleImpl implements ServiceArticle {
     public Vector<BeanArticle> draw_latest_articles() {
         return daoArticle.draw_latest_articles();
     }
+
+    @Override
+    public Vector<BeanArticle> draw_topic_articles(String topic_id) {
+        return daoArticle.draw_topic_articles(topic_id);
+    }
 }

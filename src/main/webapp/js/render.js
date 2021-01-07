@@ -49,11 +49,9 @@ $.ajax({
     },
     success:function (result){
         if (result.data.is_succeed!=="false"){
-            account.$data.account="<a href='../user_center.html' class='mdui-list-item mdui-ripple'>个人中心</a>" +
+            account.$data.account="<a href='../user_center.html?user_id="+result.data.user_id+"' class='mdui-list-item mdui-ripple'>个人中心</a>" +
                 "<a href='../user_account.html' class='mdui-list-item mdui-ripple'>账号设置</a>" +
                 "<a href='javascript:logout()' class='mdui-list-item mdui-ripple'>退出</a>";
-        }else{
-
         }
     },
     error:function (){
