@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title id="page_title">后台管理</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/vs.min.css"/>
+    <link rel="stylesheet" href="css/highlight-vs2015-style.css"/>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-loaded">
+
+<header id="header" class="mc-appbar mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme toolbar">
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+              mdui-drawer="{target: '#slider', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
+        <a href="/" class="mdui-typo-headline mdui-hidden-xs" id="site_name" v-html="site_name">{{ site_name }}>></a>
+        <a href="/" class="mdui-typo-headline mdui-hidden-xs"> 管理后台</a>
+
+        <div class="mdui-toolbar-spacer"></div>
+
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-theme'}"
+              mdui-tooltip="{content: '设置主题'}"><i class="mdui-icon material-icons">color_lens</i></span>
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="logout();"
+              mdui-tooltip="{content: '注销'}"><i class="mdui-icon material-icons">account_circle</i></span>
+    </div>
+</header>
+
+<div class="mdui-drawer" id="slider" open.mdui.collapse>
+    <div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px;">
+        <div class="mdui-collapse-item" onclick="change('web')">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">settings</i>
+                <div class="mdui-list-item-content">网站管理</div>
+            </div>
+        </div>
+        <div class="mdui-collapse-item" onclick="change('article')">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">content_paste</i>
+                <div class="mdui-list-item-content">博文管理</div>
+            </div>
+        </div>
+        <div class="mdui-collapse-item" onclick="change('user')">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">people</i>
+                <div class="mdui-list-item-content">用户管理</div>
+            </div>
+        </div>
+        <div class="mdui-collapse-item" onclick="change('report')">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-red">check</i>
+                <div class="mdui-list-item-content">审核</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a id="anchor-top"></a>
+
+<div id="drawing_progress" class="mdui-progress">
+    <div class="mdui-progress-indeterminate"></div>
+</div>
+
+<div id="web" class="mdui-container doc-container">
+    <h1 class="doc-title mdui-text-color-theme">网站设置</h1>
+    <div class="mdui-divider"></div>
+
+
+    <div class="mdui-row">
+        <div class="mdui-col-md-12">
+            <h2 class="doc-title mdui-text-color-theme">后台密码</h2>
+            <div class="mdui-panel" mdui-panel>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">修改后台密码</div>
+                        <div class="mdui-panel-item-summary"></div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="password_old" class="mdui-textfield-input" type="password"
+                                       placeholder="旧密码"/>
+                            </label>
+                        </div>
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="password" class="mdui-textfield-input" type="password" placeholder="新密码"/>
+                            </label>
+                        </div>
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="password_twice" class="mdui-textfield-input" type="password"
+                                       placeholder="再次输入"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>
+                            <button class="mdui-btn mdui-ripple" onclick="update_password();">修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="mdui-row">
+        <div class="mdui-col-md-12">
+            <h2 class="doc-title mdui-text-color-theme">后台登录名</h2>
+            <div class="mdui-panel" mdui-panel id="admin">
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">修改后台登录名</div>
+                        <div class="mdui-panel-item-summary" id="admin_name">当前：</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="username" class="mdui-textfield-input" type="text" placeholder="新登录名"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>
+                            <button class="mdui-btn mdui-ripple" onclick="update_username();">修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="mdui-row">
+        <div class="mdui-col-md-12">
+            <h2 class="doc-title mdui-text-color-theme">网站个性化</h2>
+            <div class="mdui-panel" id="web_message" mdui-panel>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">网站标题</div>
+                        <div class="mdui-panel-item-summary">网站标题会显示在web标签和页面标题中</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="web_title" class="mdui-textfield-input" type="text" placeholder="网站标题"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_web_title" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="update_title();" class="mdui-btn mdui-ripple">修改</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">页脚</div>
+                        <div class="mdui-panel-item-summary">页脚显示在网站底部，包含版权信息等</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="web_footer" class="mdui-textfield-input" type="text" placeholder="页脚"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_web_footer" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="update_footer();" class="mdui-btn mdui-ripple">修改</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">图标</div>
+                        <div class="mdui-panel-item-summary">图标显示在浏览器标签中</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_web_logo" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="update_logo();" class="mdui-btn mdui-ripple">上传</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+    <br><br>
+    <div class="mdui-row">
+        <div class="mdui-col-md-12">
+            <h2 class="doc-title mdui-text-color-theme">网站基础设置</h2>
+            <div class="mdui-panel"  mdui-panel>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">发件服务器（smtp）</div>
+                        <div class="mdui-panel-item-summary">用于发送找回账户邮件</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="smtp_server" class="mdui-textfield-input" type="text" placeholder="发件服务器（smtp）"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_smtp_server" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="set_smtp_server();" class="mdui-btn mdui-ripple">修改</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">发件账户</div>
+                        <div class="mdui-panel-item-summary">用于发送找回密码的发件账户</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="smtp_account" class="mdui-textfield-input" type="text" placeholder="发件账户"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_smtp_account" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="set_smtp_account();" class="mdui-btn mdui-ripple">修改</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">发件密码</div>
+                        <div class="mdui-panel-item-summary">发件账户的密码</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="smtp_password" class="mdui-textfield-input" type="password" placeholder="发件密码"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_smtp_password" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="set_smtp_password();" class="mdui-btn mdui-ripple">修改</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">发件端口</div>
+                        <div class="mdui-panel-item-summary">用于发送邮件的端口号</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <select class="mdui-select" id="smtp_port" mdui-select="options">
+                                    <option value="25">25（无安全协议）</option>
+                                    <option value="465">465</option>
+                                    <option value="994">994</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_smtp_port" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="set_smtp_port();" class="mdui-btn mdui-ripple">修改</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">安全协议</div>
+                        <div class="mdui-panel-item-summary">发送邮件使用的安全协议</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <select class="mdui-select" id="smtp_ssl" mdui-select>
+                                    <option value="none">不使用安全协议（25端口）</option>
+                                    <option value="tls">TLS协议</option>
+                                    <option value="ssl">SSL协议</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_smtp_ssl" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="set_smtp_ssl();" class="mdui-btn mdui-ripple">修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+</div>
+<div id="article" class="mdui-container doc-container" style="display: none">
+    <h1 class="doc-title mdui-text-color-theme">文章管理</h1>
+    <div class="mdui-divider"></div>
+    <div class="mdui-row">
+        <div class="mdui-col-md-12">
+            <h2 class="doc-title mdui-text-color-theme">话题管理</h2>
+            <div class="mdui-panel" id="topics" mdui-panel>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">添加话题</div>
+                        <div class="mdui-panel-item-summary">文章必须发布在话题中</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="new_topic_title" class="mdui-textfield-input" type="text" placeholder="话题名"/>
+                            </label>
+                        </div>
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="new_topic_pic" class="mdui-textfield-input" type="text" placeholder="话题封面"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_new_topic" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="add_new_topic();" class="mdui-btn mdui-ripple">添加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <h2 class="doc-title mdui-text-color-theme">文章列表</h2>
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="mdui-col-md-12">
+                <table class="mdui-table">
+                    <thead>
+                    <tr>
+                        <td>文章ID</td>
+                        <td>文章标题</td>
+                        <td>文章话题</td>
+                        <td>文章作者</td>
+                        <td>上传时间</td>
+                        <td>编辑时间</td>
+                        <td>删除</td>
+                    </tr>
+                    </thead>
+                    <tbody id="articles">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="user" class="mdui-container doc-container" style="display: none">
+    <h1 class="doc-title mdui-text-color-theme">用户管理</h1>
+    <div class="mdui-divider"></div>
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="mdui-col-md-12">
+                <table class="mdui-table">
+                    <thead>
+                    <tr>
+                        <td>用户ID</td>
+                        <td>用户名</td>
+                        <td>用户邮箱</td>
+                        <td>封禁状态</td>
+                        <td>用户组</td>
+                        <td>解/封禁</td>
+                    </tr>
+                    </thead>
+                    <tbody id="users">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mdui-container doc-container" id="report" style="display:none">
+    <h1 class="doc-title mdui-text-color-theme">审核</h1>
+    <div class="mdui-divider"></div>
+    <h2 class="doc-title mdui-text-color-theme">用户举报审核</h2>
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="mdui-col-md-12">
+                <table id='user_report' class="mdui-table">
+                    <thead>
+                    <tr>
+                        <td>被举报用户ID</td>
+                        <td>被举报用户名</td>
+                        <td>举报原因</td>
+                        <td>封禁状态</td>
+                        <td>解/封禁</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>admin</td>
+                        <td>admin@admin.com</td>
+                        <td>未封禁</td>
+                        <td><i class="mdui-icon material-icons">do_not_disturb</i></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <h2 class="doc-title mdui-text-color-theme">文章举报审核</h2>
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="mdui-col-md-12">
+                <table id='article_report' class="mdui-table">
+                    <thead>
+                    <tr>
+                        <td>被举报文章</td>
+                        <td>被举报文章标题</td>
+                        <td>举报原因</td>
+                        <td>作者封禁状态</td>
+                        <td>删除文章</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>admin</td>
+                        <td>admin@admin.com</td>
+                        <td>未封禁</td>
+                        <td><i class="mdui-icon material-icons">do_not_disturb</i></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <h2 class="doc-title mdui-text-color-theme">评论举报审核</h2>
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="mdui-col-md-12">
+                <table id='comment_report' class="mdui-table">
+                    <thead>
+                    <tr>
+                        <td>被举报用户ID</td>
+                        <td>被举报评论内容</td>
+                        <td>举报原因</td>
+                        <td>被举报用户状态</td>
+                        <td>解/封禁</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>admin</td>
+                        <td>admin@admin.com</td>
+                        <td>未封禁</td>
+                        <td><i class="mdui-icon material-icons">do_not_disturb</i></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br><br>
+</div>
+
+<div style="display: none" v-html="account" id="account">{{ account }}</div>
+<div class="doc-footer-nav">
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="rights" id="footer" v-html="footer">
+                {{ footer }}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/holderjs@2.9.7/holder.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"></script>
+
+
+<script>
+
+    $.ajax({
+        url:"api",
+        method:"post",
+        dataType:"json",
+        async:false,
+        data:{
+            function:"admin_check"
+        },
+        success:function (result){
+            if (result.data.is_succeed==='false')
+                window.location.href='404.html'
+
+        },
+        error:function (){
+            console.log("Server Error")
+        }
+    })
+</script>
+
+
+<script src="js/render.js"></script>
+<script src="js/contents.js"></script>
+<script>
+    function change(page_id) {
+        $(".doc-container").hide()
+        $("#" + page_id).show()
+    }
+
+    draw_admin()
+
+</script>
+</html>

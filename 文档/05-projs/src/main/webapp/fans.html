@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title id="page_title">{{page_title}}</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/vs.min.css"/>
+    <link rel="stylesheet" href="css/highlight-vs2015-style.css"/>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/style.css"/>
+
+</head>
+
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-loaded">
+
+<header id="header" class="mc-appbar mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme toolbar">
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+              mdui-drawer="{target: '#slider', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
+        <a href="/" class="mdui-typo-headline mdui-hidden-xs" id="site_name">{{ site_name }}</a>
+
+        <form method="get" class="search-bar" action="">
+            <button type="button" class="back mdui-btn mdui-btn-icon"><i
+                    class="mdui-icon material-icons mdui-text-color-theme-icon">arrow_back</i></button>
+            <button type="submit" class="submit mdui-btn mdui-btn-icon"><i
+                    class="mdui-icon material-icons mdui-text-color-theme-icon">search</i></button>
+            <label for="search"></label>
+            <input id="search" type="text" placeholder="搜索文章">
+
+            <button type="button" class="cancel mdui-btn mdui-btn-icon"><i
+                    class="mdui-icon material-icons mdui-text-color-theme-icon">close</i></button>
+        </form>
+
+        <div class="mdui-toolbar-spacer"></div>
+
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-theme'}"
+              mdui-tooltip="{content: '设置主题'}"><i class="mdui-icon material-icons">color_lens</i></span>
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+              onclick="window.location.href='notification.html'"
+              mdui-tooltip="{content: '通知中心'}"><i class="mdui-icon material-icons">&#xe7f4;</i></span>
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="window.location.href='user_account.html'"
+              mdui-tooltip="{content: '用户'}"><i class="mdui-icon material-icons">account_circle</i></span>
+    </div>
+</header>
+
+<div class="mdui-drawer" id="slider" open.mdui.collapse>
+    <div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px;">
+        <div class="mdui-collapse-item" onclick="window.location.href='/'">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">&#xe88a;</i>
+                <div class="mdui-list-item-content">主页</div>
+            </div>
+        </div>
+        <div class="mdui-collapse-item" onclick="window.location.href='topics.html'">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">&#xe866;</i>
+                <div class="mdui-list-item-content">话题板块</div>
+            </div>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-collapse-item ">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-brown">&#xe853;</i>
+                <div class="mdui-list-item-content">我的账户</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list" v-html="account" id="account">
+                {{ account }}
+            </div>
+        </div>
+        <div class="mdui-collapse-item ">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">&#xe8d3;</i>
+                <div class="mdui-list-item-content">人脉</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list">
+                <a href="subscription.html" class="mdui-list-item mdui-ripple ">我关注的</a>
+                <a href="fans.html" class="mdui-list-item mdui-ripple ">我的粉丝</a>
+            </div>
+        </div>
+        <div class="mdui-collapse-item" onclick="window.location.href='notification.html'">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-red">&#xe7f4;</i>
+                <div class="mdui-list-item-content">通知</div>
+            </div>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-collapse-item" onclick="window.location.href='about.html'">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">&#xe887;</i>
+                <div class="mdui-list-item-content">关于本站</div>
+            </div>
+        </div>
+        <div class="mdui-collapse-item" onclick="window.location.href='privacy.html'">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-grey">&#xe899;</i>
+                <div class="mdui-list-item-content">隐私权</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a id="anchor-top"></a>
+
+<div id="drawing_progress" class="mdui-progress">
+    <div class="mdui-progress-indeterminate"></div>
+</div>
+
+<div class="doc-footer-nav">
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="rights" id="footer" v-html="footer">
+                {{ footer }}
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/holderjs@2.9.7/holder.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"></script>
+
+<script src="js/render.js"></script>
+<script src="js/contents.js"></script>
+<script>
+    $.ajax({
+        url:api,
+        method:"post",
+        dataType:"json",
+        data:{
+            'function':'login_check'
+        },
+        success:function (result){
+            if (result.data.is_succeed==="false"){
+                window.location.href="login.html";
+            }else{
+                do_load();
+            }
+        },
+        error:function (){
+            mdui.alert("服务器异常！")
+        }
+    })
+
+    function do_load(){
+        $("#drawing_progress").hide();
+    }
+</script>
+</html>
