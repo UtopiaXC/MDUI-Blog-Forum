@@ -479,4 +479,143 @@ public class ApiUtil {
             return data;
         }
     }
+
+    public static JSONObject update_web_title(HttpServletRequest request) {
+        ServiceWebMessage serviceWebMessage;
+        try {
+            serviceWebMessage=new ServiceWebMessageImpl();
+            String web_title=request.getParameter("web_title");
+            if (serviceWebMessage.update_web_title(web_title)){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","true");
+                return data;
+            }else{
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                return data;
+            }
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+    }
+
+    public static JSONObject update_web_footer(HttpServletRequest request) {
+        ServiceWebMessage serviceWebMessage;
+        try {
+            serviceWebMessage=new ServiceWebMessageImpl();
+            String web_footer=request.getParameter("web_footer");
+            if (serviceWebMessage.update_web_footer(web_footer)){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","true");
+                return data;
+            }else{
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                return data;
+            }
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+    }
+
+    public static JSONObject delete_topic(HttpServletRequest request) {
+        ServiceTopic serviceTopic;
+        try {
+            serviceTopic=new ServiceTopicImpl();
+            String topic_id=request.getParameter("topic_id");
+            if (serviceTopic.delete_topic(topic_id)){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","true");
+                return data;
+            }else{
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                return data;
+            }
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+    }
+
+    public static JSONObject delete_article(HttpServletRequest request) {
+        ServiceArticle serviceArticle;
+        try {
+            serviceArticle=new ServiceArticleImpl();
+            String article_id=request.getParameter("article_id");
+            if (serviceArticle.delete_article(article_id)){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","true");
+                return data;
+            }else{
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                return data;
+            }
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+    }
+
+    public static JSONObject draw_user_page(HttpServletRequest request) {
+        ServiceRegisterUser serviceRegisterUser;
+        ServiceArticle serviceArticle;
+        ServiceUserSubscription serviceUserSubscription;
+        ServiceArticleComment serviceArticleComment;
+        ServiceArticleLike serviceArticleLike;
+        try{
+            serviceRegisterUser=new ServiceRegisterUserImpl();
+            serviceArticle=new ServiceArticleImpl();
+            serviceUserSubscription=new ServiceUserSubscriptionImpl();
+            serviceArticleComment=new ServiceArticleCommentImpl();
+            serviceArticleLike=new ServiceArticleLikeImpl();
+
+            String user_id=request.getParameter("user_id");
+            BeanRegisterUser beanRegisterUser=serviceRegisterUser.get_full_user_by_id(user_id);
+            if (beanRegisterUser==null){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                return data;
+            }
+
+            Vector<BeanArticle> beanArticles=serviceArticle.get_articles_by_user(user_id);
+            if (beanArticles==null){
+                    JSONObject data=new JSONObject();
+                    data.put("is_succeed","false");
+                    return data;
+            }
+
+            int subscriptions=serviceUserSubscription.get_subscription_count_by_id(user_id);
+
+
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","true");
+            data.put("user_name",beanRegisterUser.getUser_name());
+            data.put("user_slogan",beanRegisterUser.getUser_slogan());
+            data.put("user_birthday",beanRegisterUser.getUser_birthday());
+            data.put("user_link",beanRegisterUser.getUser_link());
+            data.put("user_region",beanRegisterUser.getUser_region());
+            data.put("articles_count",beanArticles.size());
+            data.put("articles",beanArticles.toArray());
+            data.put("subscriptions",subscriptions);
+            return data;
+
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+    }
 }

@@ -34,4 +34,30 @@ public class DaoWebMessageImpl implements DaoWebMessage {
             return null;
         }
     }
+
+    @Override
+    public boolean update_web_title(String web_title) {
+        try {
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "UPDATE web_message SET web_message_content=? WHERE web_message_title='title'");
+            preparedStatement.setString(1,web_title);
+            return preparedStatement.executeUpdate() == 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update_web_footer(String web_footer) {
+        try {
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "UPDATE web_message SET web_message_content=? WHERE web_message_title='footer'");
+            preparedStatement.setString(1,web_footer);
+            return preparedStatement.executeUpdate() == 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

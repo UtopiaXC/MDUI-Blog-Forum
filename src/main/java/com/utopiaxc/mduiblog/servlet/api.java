@@ -103,6 +103,31 @@ public class api extends HttpServlet {
                         "API Called Successfully",
                         ApiUtil.add_new_topic(request),
                         printWriter);
+            } else if("update_web_title".equals(function)){
+                FastJsonUtils.doResponse(200,
+                        "API Called Successfully",
+                        ApiUtil.update_web_title(request),
+                        printWriter);
+            }else if("update_web_footer".equals(function)){
+                FastJsonUtils.doResponse(200,
+                        "API Called Successfully",
+                        ApiUtil.update_web_footer(request),
+                        printWriter);
+            }else if("delete_topic".equals(function)){
+                FastJsonUtils.doResponse(200,
+                        "API Called Successfully",
+                        ApiUtil.delete_topic(request),
+                        printWriter);
+            }else if("delete_article".equals(function)){
+                FastJsonUtils.doResponse(200,
+                        "API Called Successfully",
+                        ApiUtil.delete_article(request),
+                        printWriter);
+            }else if("draw_user_page".equals(function)){
+                FastJsonUtils.doResponse(200,
+                        "API Called Successfully",
+                        ApiUtil.draw_user_page(request),
+                        printWriter);
             }else {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("Parameter", function);

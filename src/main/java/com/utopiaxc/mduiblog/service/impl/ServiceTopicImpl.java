@@ -36,4 +36,9 @@ public class ServiceTopicImpl implements ServiceTopic {
     public BeanTopic add_topic(BeanTopic beanTopic) {
         return daoTopic.add_topic(beanTopic);
     }
+
+    @Override
+    public boolean delete_topic(String topic_id) {
+        return daoTopic.delete_topic(topic_id);
+    }
 }

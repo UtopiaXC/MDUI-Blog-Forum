@@ -15,4 +15,6 @@ public interface DaoRegisterUser {
     BeanRegisterUser get_user_by_id(String article_user_id);
 
     Vector<BeanRegisterUser> get_all_users();
+
+    BeanRegisterUser get_full_user_by_id(String user_id);
 }

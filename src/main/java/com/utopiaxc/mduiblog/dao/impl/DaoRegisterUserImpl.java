@@ -135,4 +135,44 @@ public class DaoRegisterUserImpl implements DaoRegisterUser {
             return null;
         }
     }
+
+    @Override
+    public BeanRegisterUser get_full_user_by_id(String user_id) {
+        try{
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "SELECT user_id,user_name,user_slogan,user_birthday,user_link,user_region FROM register_user WHERE user_id=?");
+            preparedStatement.setString(1,user_id);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            if (resultSet.next()){
+                BeanRegisterUser beanRegisterUser=new BeanRegisterUser();
+                beanRegisterUser.setUser_name(resultSet.getString("user_name"));
+                beanRegisterUser.setUser_id(resultSet.getString("user_id"));
+                if (resultSet.getString("user_slogan")==null)
+                    beanRegisterUser.setUser_slogan("无");
+                else
+                    beanRegisterUser.setUser_slogan(resultSet.getString("user_slogan"));
+
+                if (resultSet.getString("user_birthday")==null)
+                    beanRegisterUser.setUser_birthday("无");
+                else
+                    beanRegisterUser.setUser_birthday(resultSet.getString("user_birthday"));
+
+                if (resultSet.getString("user_link")==null)
+                    beanRegisterUser.setUser_link("无");
+                else
+                    beanRegisterUser.setUser_link(resultSet.getString("user_link"));
+
+                if (resultSet.getString("user_region")==null)
+                    beanRegisterUser.setUser_region("无");
+                else
+                    beanRegisterUser.setUser_region(resultSet.getString("user_region"));
+
+                return beanRegisterUser;
+            }
+            return null;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

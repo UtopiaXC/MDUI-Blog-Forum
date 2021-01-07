@@ -47,4 +47,9 @@ public class ServiceRegisterUserImpl implements ServiceRegisterUser {
     public Vector<BeanRegisterUser> get_all_users() {
         return daoRegisterUser.get_all_users();
     }
+
+    @Override
+    public BeanRegisterUser get_full_user_by_id(String user_id) {
+        return daoRegisterUser.get_full_user_by_id(user_id);
+    }
 }

@@ -122,4 +122,17 @@ public class DaoTopicImpl implements DaoTopic {
             return null;
         }
     }
+
+    @Override
+    public boolean delete_topic(String topic_id) {
+        try {
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "DELETE FROM topic WHERE topic_id=?");
+            preparedStatement.setString(1,topic_id);
+            return preparedStatement.executeUpdate()==1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

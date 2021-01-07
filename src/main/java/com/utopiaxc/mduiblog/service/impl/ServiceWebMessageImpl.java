@@ -16,4 +16,14 @@ public class ServiceWebMessageImpl implements  ServiceWebMessage {
     public Vector<BeanWebMessage> get_web_messages() {
         return daoWebMessage.get_web_messages();
     }
+
+    @Override
+    public boolean update_web_title(String web_title) {
+        return daoWebMessage.update_web_title(web_title);
+    }
+
+    @Override
+    public boolean update_web_footer(String web_footer) {
+        return daoWebMessage.update_web_footer(web_footer);
+    }
 }

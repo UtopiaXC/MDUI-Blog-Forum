@@ -50,4 +50,14 @@ public class ServiceArticleImpl implements ServiceArticle {
     public Vector<BeanArticle> get_all_articles() {
         return daoArticle.get_all_articles();
     }
+
+    @Override
+    public boolean delete_article(String article_id) {
+        return daoArticle.delete_article(article_id);
+    }
+
+    @Override
+    public Vector<BeanArticle> get_articles_by_user(String user_id) {
+        return daoArticle.get_articles_by_user(user_id);
+    }
 }

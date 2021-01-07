@@ -130,17 +130,17 @@
         </div>
         <div class="info">
             <div class="profile fold">
-                <div class="meta username mdui-text-color-theme-text">UtopiaXC</div>
+                <div class="meta username mdui-text-color-theme-text" id="user_name"></div>
             </div>
         </div>
         <div class="actions">
             <button class="edit mdui-btn mdui-btn-icon mdui-btn-outlined"
-                    mdui-tooltip="{content: '更多资料', delay: 300}">
+                    mdui-tooltip="{content: '更多资料', delay: 300}" mdui-dialog="{target:'#more_messages'}">
                 <i class="mdui-icon material-icons mdui-text-color-theme-icon">add</i></button>
             <div class="follow">
-                <button class="followers mdui-btn mdui-text-color-theme-secondary">0 人关注</button>
+                <button class="followers mdui-btn mdui-text-color-theme-secondary" id="button_subscription"></button>
                 <div class="divider"></div>
-                <button class="followees mdui-btn mdui-text-color-theme-secondary">共 1 篇文章</button>
+                <button class="followees mdui-btn mdui-text-color-theme-secondary" id="button_articles_count"></button>
             </div>
             <div class="flex-grow"></div>
             <div class="mc-options-button">
@@ -151,146 +151,57 @@
     </div>
     <div class="contexts mdui-card">
         <div class="mc-tab mdui-tab">
-            <a onclick="change_tab('tab_article')" id="tab_article_switcher" class="mdui-ripple mdui-tab-active">文章<span>0</span></a>
+            <a onclick="change_tab('tab_article')" id="tab_article_switcher"
+               class="mdui-ripple mdui-tab-active">文章<span id="tab_articles_count"></span></a>
             <a onclick="change_tab('tab_comment')" id="tab_comment_switcher" class="mdui-ripple">评论<span>0</span></a>
             <a onclick="change_tab('tab_like')" id="tab_like_switcher" class="mdui-ripple">点赞<span>0</span></a>
         </div>
         <div id="tab_article" style="">
-            <div class="mc-list-header mdui-hidden">
-                <div class="title">共 1 篇文章</div>
-                <button class="mdui-btn mdui-btn-dense"
-                        mdui-menu="{target: '#mc-list-header-questions', align: 'right'}">更新时间（从晚到早）<i
-                        class="mdui-icon mdui-icon-right material-icons mdui-text-color-theme-icon">arrow_drop_down</i>
-                </button>
-                <ul class="mdui-menu" id="mc-list-header-questions">
-                    <li class="mdui-menu-item"><a href="javascript:void(0)"><i
-                            class="mdui-menu-item-icon mdui-icon material-icons">check</i>更新时间（从晚到早）</a></li>
-                    <li class="mdui-menu-item"><a href="javascript:void(0)"><i
-                            class="mdui-menu-item-icon mdui-icon material-icons"></i>更新时间（从早到晚）</a></li>
-                </ul>
+            <div class="item-list" id="articles">
+
             </div>
-            <div class="mc-empty">
-                <div class="title">共 0 条评论</div>
-            </div>
-            <div class="mc-loading mdui-hidden">
-                <div class="mdui-spinner">
-                    <div class="mdui-spinner-layer ">
-                        <div class="mdui-spinner-circle-clipper mdui-spinner-left">
-                            <div class="mdui-spinner-circle"></div>
-                        </div>
-                        <div class="mdui-spinner-gap-patch">
-                            <div class="mdui-spinner-circle"></div>
-                        </div>
-                        <div class="mdui-spinner-circle-clipper mdui-spinner-right">
-                            <div class="mdui-spinner-circle"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mc-loaded mdui-hidden">已加载完所有数据</div>
         </div>
         <div id="tab_comment" style="display: none;">
-            <div class="mc-list-header mdui-hidden">
-                <div class="title">共 0 个回答</div>
-            </div>
-            <div class="mc-empty">
-                <div class="title">该用户没有发表回答</div>
-            </div>
-            <div class="mc-loading mdui-hidden">
-                <div class="mdui-spinner">
-                    <div class="mdui-spinner-layer ">
-                        <div class="mdui-spinner-circle-clipper mdui-spinner-left">
-                            <div class="mdui-spinner-circle"></div>
-                        </div>
-                        <div class="mdui-spinner-gap-patch">
-                            <div class="mdui-spinner-circle"></div>
-                        </div>
-                        <div class="mdui-spinner-circle-clipper mdui-spinner-right">
-                            <div class="mdui-spinner-circle"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mc-loaded mdui-hidden">已加载完所有数据</div>
+
         </div>
         <div id="tab_like" style="display: none;">
-            <div class="mc-list-header mdui-hidden">
-                <div class="title">共 0 条点赞</div>
-                <button class="mdui-btn mdui-btn-dense"
-                        mdui-menu="{target: '#mc-list-header-articles', align: 'right'}">发布时间（从晚到早）<i
-                        class="mdui-icon mdui-icon-right material-icons mdui-text-color-theme-icon">arrow_drop_down</i>
-                </button>
-                <ul class="mdui-menu" id="mc-list-header-articles">
-                    <li class="mdui-menu-item"><a href="javascript:void(0)"><i
-                            class="mdui-menu-item-icon mdui-icon material-icons">check</i>发布时间（从晚到早）</a></li>
-                    <li class="mdui-menu-item"><a href="javascript:void(0)"><i
-                            class="mdui-menu-item-icon mdui-icon material-icons"></i>发布时间（从早到晚）</a></li>
-                    <li class="mdui-menu-item"><a href="javascript:void(0)"><i
-                            class="mdui-menu-item-icon mdui-icon material-icons"></i>最热门</a></li>
-                </ul>
-            </div>
-            <div class="mc-empty">
-                <div class="title">该用户没有进行点赞</div>
-            </div>
-            <div class="mc-loading mdui-hidden">
-                <div class="mdui-spinner">
-                    <div class="mdui-spinner-layer ">
-                        <div class="mdui-spinner-circle-clipper mdui-spinner-left">
-                            <div class="mdui-spinner-circle"></div>
-                        </div>
-                        <div class="mdui-spinner-gap-patch">
-                            <div class="mdui-spinner-circle"></div>
-                        </div>
-                        <div class="mdui-spinner-circle-clipper mdui-spinner-right">
-                            <div class="mdui-spinner-circle"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mc-loaded mdui-hidden">已加载完所有数据</div>
+
         </div>
     </div>
 
-    <div class="mdui-dialog edit-info" style="top: 393px; display: none; height: 584px;">
+    <div id="more_messages" class="mdui-dialog edit-info" style="top: 393px; display: none; height: 584px;">
         <div class="mdui-dialog-title">
             <button class="mdui-btn mdui-btn-icon mdui-ripple close" mdui-dialog-close="true">
                 <i class="mdui-icon material-icons">close</i></button>
-            编辑个人信息
+            个人信息
         </div>
         <form class="mdui-dialog-content" style="height: 464px;">
-            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom">
-                <label class="mdui-textfield-label">一句话介绍</label>
-                <input class="mdui-textfield-input" name="headline" type="text" maxlength="40">
-                <div class="mdui-textfield-counter"><span class="mdui-textfield-counter-inputed">0</span> / 40</div>
+            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom mdui-textfield-focus">
+                <label for="user_slogan" class="mdui-textfield-label">一句话介绍</label>
+                <input id="user_slogan" class="mdui-textfield-input" name="headline" type="text" readonly>
+                <div class="mdui-textfield-counter"></div>
             </div>
-            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom"><label
-                    class="mdui-textfield-label">个人主页</label>
-                <input class="mdui-textfield-input" name="blog" type="text" maxlength="80">
-                <div class="mdui-textfield-counter"><span class="mdui-textfield-counter-inputed">0</span> / 80</div>
+            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom mdui-textfield-focus">
+                <label for="user_link" class="mdui-textfield-label">个人主页</label>
+                <input id="user_link" class="mdui-textfield-input" name="blog" type="text" readonly>
+                <div class="mdui-textfield-counter"></div>
             </div>
-            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom"><label
-                    class="mdui-textfield-label">所属学校或企业</label>
-                <input class="mdui-textfield-input" name="company" type="text" maxlength="80">
-                <div class="mdui-textfield-counter"><span class="mdui-textfield-counter-inputed">0</span> / 80</div>
+            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom mdui-textfield-focus">
+                <label for="user_birthday" class="mdui-textfield-label">生日</label>
+                <input id="user_birthday" class="mdui-textfield-input" name="company" type="text" readonly>
+                <div class="mdui-textfield-counter"></div>
             </div>
-            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom"><label
-                    class="mdui-textfield-label">所在地区</label>
-                <input class="mdui-textfield-input" name="location" type="text" maxlength="80">
-                <div class="mdui-textfield-counter"><span class="mdui-textfield-counter-inputed">0</span> / 80</div>
-            </div>
-            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom"><label
-                    class="mdui-textfield-label">个人简介</label>
-                <textarea class="mdui-textfield-input" name="bio" maxlength="160"></textarea>
-                <div class="mdui-textfield-counter"><span class="mdui-textfield-counter-inputed">0</span> / 160</div>
+            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom mdui-textfield-focus">
+                <label for="user_region" class="mdui-textfield-label">所在地区</label>
+                <input id="user_region" class="mdui-textfield-input" name="location" type="text" readonly>
+                <div class="mdui-textfield-counter"></div>
             </div>
         </form>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn" mdui-dialog-close="true">取消</button>
             <button class="mdui-btn" mdui-dialog-confirm="true">确定</button>
         </div>
     </div>
 </div>
-
 
 
 <div class="doc-footer-nav">
@@ -316,15 +227,62 @@
 <script src="js/contents.js"></script>
 <script>
 
-    function change_tab(tab_name){
+    if ($.getUrlParam("user_id")===null){
+        window.location.href="404.html"
+    }
+
+    function change_tab(tab_name) {
         $("#tab_article").hide();
         $("#tab_comment").hide();
         $("#tab_like").hide();
-        $("#"+tab_name).show();
-        $("#tab_article_switcher").attr("class","mdui-ripple")
-        $("#tab_comment_switcher").attr("class","mdui-ripple")
-        $("#tab_like_switcher").attr("class","mdui-ripple")
-        $("#"+tab_name+"_switcher").attr("class","mdui-ripple mdui-tab-active")
+        $("#" + tab_name).show();
+        $("#tab_article_switcher").attr("class", "mdui-ripple")
+        $("#tab_comment_switcher").attr("class", "mdui-ripple")
+        $("#tab_like_switcher").attr("class", "mdui-ripple")
+        $("#" + tab_name + "_switcher").attr("class", "mdui-ripple mdui-tab-active")
     }
+
+    $.ajax({
+        url:api,
+        method:"post",
+        dataType:"json",
+        data:{
+            "function":"draw_user_page",
+            "user_id":$.getUrlParam("user_id")
+        },
+        success:function (result){
+            if (result.data.is_succeed!=="true")
+                window.location.href="404.html";
+            $("#user_name").append(result.data.user_name);
+            $("#user_slogan").val(result.data.user_slogan);
+            $("#user_birthday").val(result.data.user_birthday);
+            $("#user_link").val(result.data.user_link);
+            $("#user_region").val(result.data.user_region);
+            $("#tab_articles_count").append(result.data.articles_count)
+            $("#button_articles_count").append("共 "+result.data.articles_count+" 篇文章")
+            $("#button_subscription").append(result.data.subscriptions+" 人关注")
+            for (i=0;i<result.data.articles_count;i++){
+                $("#articles").append('<a class="mc-list-item" href="article.html?article_id='+result.data.articles[i].article_id+'">\n' +
+                    '            <div class="title mdui-text-color-theme-text">'+result.data.articles[i].article_title+'</div>\n' +
+                    '            <div class="content mdui-text-color-theme-secondary">\n' +
+                    '                <div class="snippet">'+result.data.articles[i].article_user_id+'</div>\n' +
+                    '                <div class="meta">\n' +
+                    '                    <div class="update_time">发布时间：'+result.data.articles[i].article_submit_time+'</div>\n' +
+                    '                    <div class="replys">最后编辑时间'+result.data.articles[i].article_edit_time+'</div>\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '        </a>')
+            }
+
+
+            $("#drawing_progress").hide();
+        },
+        error:function (){
+            window.location.href="404.html"
+            $("#drawing_progress").hide();
+        }
+    })
+
+
 </script>
 </html>

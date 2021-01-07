@@ -14,4 +14,6 @@ public interface DaoTopic {
     BeanTopic get_topic_by_id(String article_topic_id);
 
     BeanTopic add_topic(BeanTopic beanTopic);
+
+    boolean delete_topic(String topic_id);
 }

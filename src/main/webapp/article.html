@@ -351,9 +351,11 @@ $.ajax({
         $("#article_topic").append(result.data.article_topic_name);
         $("#article_likes_count").append(result.data.article_like_count);
 
+
+        $("#drawing_progress").hide();
     },
     error:function (){
-
+        $("#drawing_progress").hide();
     }
 })
 </script>

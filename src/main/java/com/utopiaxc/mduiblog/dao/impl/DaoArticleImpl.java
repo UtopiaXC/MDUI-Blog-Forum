@@ -159,7 +159,7 @@ public class DaoArticleImpl implements DaoArticle {
     public Vector<BeanArticle> get_all_articles() {
         try{
             preparedStatement=databaseConnection.getConnection().prepareStatement(
-                    "SELECT article_id,article_title,topic_title,user_name,article_submit_time,article_edit_time FROM article,register_user,topic WHERE article_user_id=register_user.user_id AND article_topic_id=topic.topic_id");
+                    "SELECT article_id,article_title,topic_title,user_name,article_submit_time,article_edit_time FROM article,register_user,topic WHERE article_user_id=register_user.user_id AND article_topic_id=topic.topic_id ORDER BY article_id");
             ResultSet resultSet=preparedStatement.executeQuery();
             Vector<BeanArticle> beanArticles=new Vector<>();
             while (resultSet.next()){
@@ -175,6 +175,43 @@ public class DaoArticleImpl implements DaoArticle {
             return beanArticles;
         }catch (Exception e){
             return null;
+        }
+    }
+
+    @Override
+    public boolean delete_article(String article_id) {
+        try {
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "DELETE FROM article WHERE article_id=?");
+            preparedStatement.setString(1,article_id);
+            return preparedStatement.executeUpdate()==1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public Vector<BeanArticle> get_articles_by_user(String user_id) {
+        try {
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "SELECT article.article_id,article.article_title,register_user.user_name,article.article_submit_time,article.article_edit_time FROM article,register_user WHERE article.article_user_id=register_user.user_id AND user_id=? ORDER BY article.article_edit_time DESC");
+            preparedStatement.setString(1,user_id);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            Vector<BeanArticle> beanArticles=new Vector<>();
+            while (resultSet.next()){
+                BeanArticle beanArticle=new BeanArticle();
+                beanArticle.setArticle_user_id(resultSet.getString("user_name"));
+                beanArticle.setArticle_title(resultSet.getString("article_title"));
+                beanArticle.setArticle_id(resultSet.getString("article_id"));
+                beanArticle.setArticle_edit_time(resultSet.getString("article_edit_time"));
+                beanArticle.setArticle_submit_time(resultSet.getString("article_submit_time"));
+                beanArticles.add(beanArticle);
+            }
+            return beanArticles;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Vector<>();
         }
     }
 }
