@@ -175,4 +175,39 @@ public class DaoRegisterUserImpl implements DaoRegisterUser {
             return null;
         }
     }
+
+    @Override
+    public boolean update_admin_username(String user_name) {
+        try{
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "UPDATE register_user SET user_name=? WHERE user_group='admin'");
+            preparedStatement.setString(1,user_name);
+            return preparedStatement.executeUpdate()==1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update_admin_password(String old_password, String password) {
+        try{
+            preparedStatement=databaseConnection.getConnection().prepareStatement(
+                    "SELECT user_password FROM register_user WHERE user_group='admin'");
+            ResultSet resultSet=preparedStatement.executeQuery();
+            if (resultSet.next()){
+                String saved_password=resultSet.getString("user_password");
+                if (!saved_password.equals(old_password))
+                    return false;
+                preparedStatement=databaseConnection.getConnection().prepareStatement(
+                        "UPDATE register_user SET user_password=? WHERE user_group='admin'");
+                preparedStatement.setString(1,password);
+                return preparedStatement.executeUpdate()==1;
+            }
+            return false;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

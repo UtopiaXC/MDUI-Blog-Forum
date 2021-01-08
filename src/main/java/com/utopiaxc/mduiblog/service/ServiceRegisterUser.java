@@ -17,4 +17,8 @@ public interface ServiceRegisterUser {
     Vector<BeanRegisterUser> get_all_users();
 
     BeanRegisterUser get_full_user_by_id(String user_id);
+
+    boolean update_admin_username(String user_name);
+
+    boolean update_admin_password(String old_password, String password);
 }

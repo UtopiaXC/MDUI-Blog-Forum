@@ -699,4 +699,74 @@ public class ApiUtil {
             return data;
         }
     }
+
+    public static JSONObject update_admin_username(HttpServletRequest request) {
+        ServiceRegisterUser serviceRegisterUser;
+        ServiceSession serviceSession;
+        try {
+            serviceRegisterUser=new ServiceRegisterUserImpl();
+            serviceSession=new ServiceSessionImpl();
+            String user_name=request.getParameter("username");
+
+            if (!serviceSession.is_login_admin(request)){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","您未进行管理员登入");
+                return data;
+            }
+
+            if (serviceRegisterUser.update_admin_username(user_name)){
+                serviceSession.do_logout(request);
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","true");
+                return data;
+            }else{
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","该用户名已存在");
+                return data;
+            }
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+    }
+
+    public static JSONObject update_admin_password(HttpServletRequest request) {
+        ServiceRegisterUser serviceRegisterUser;
+        ServiceSession serviceSession;
+        try {
+            serviceRegisterUser=new ServiceRegisterUserImpl();
+            serviceSession=new ServiceSessionImpl();
+            String old_password=Encryption.md5("#*#*4636"+request.getParameter("old_password")+"*#*#");
+            String password=Encryption.md5("#*#*4636"+request.getParameter("password")+"*#*#");
+
+
+            if (!serviceSession.is_login_admin(request)){
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","您未进行管理员登入");
+                return data;
+            }
+
+            if (serviceRegisterUser.update_admin_password(old_password,password)){
+                serviceSession.do_logout(request);
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","true");
+                return data;
+            }else{
+                JSONObject data=new JSONObject();
+                data.put("is_succeed","false");
+                data.put("error_cause","旧密码不正确");
+                return data;
+            }
+        }catch (Exception e){
+            JSONObject data=new JSONObject();
+            data.put("is_succeed","false");
+            data.put("error_cause",e.toString());
+            return data;
+        }
+    }
 }

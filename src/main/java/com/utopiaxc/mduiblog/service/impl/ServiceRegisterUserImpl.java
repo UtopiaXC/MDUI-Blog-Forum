@@ -52,4 +52,14 @@ public class ServiceRegisterUserImpl implements ServiceRegisterUser {
     public BeanRegisterUser get_full_user_by_id(String user_id) {
         return daoRegisterUser.get_full_user_by_id(user_id);
     }
+
+    @Override
+    public boolean update_admin_username(String user_name) {
+        return daoRegisterUser.update_admin_username(user_name);
+    }
+
+    @Override
+    public boolean update_admin_password(String old_password, String password) {
+        return daoRegisterUser.update_admin_password(old_password,password);
+    }
 }

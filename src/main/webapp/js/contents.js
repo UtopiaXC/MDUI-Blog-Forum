@@ -526,3 +526,79 @@ function delete_article(article_id){
         })
     });
 }
+
+function update_username(){
+    let username=$("#username").val()
+    if (username===""){
+        mdui.alert("不能为空","抱歉")
+    }
+    $.ajax({
+        url:api,
+        method:"post",
+        dataType:"json",
+        data:{
+            "function":"update_admin_username",
+            "username":username,
+        },
+        success:function (result){
+            if (result.data.is_succeed==="true"){
+                document.cookie = "token" + "=" + "" + "; " + "-1";
+                mdui.confirm("管理员名已更改，已自动退出，请重新登录","成功",function (){
+                    window.location.href='../login.html'
+                })
+            }else {
+                mdui.alert(result.data.error_cause,"抱歉")
+            }
+        },
+        error:function (){
+            mdui.alert("服务器错误","抱歉")
+        }
+    })
+}
+
+function update_password(){
+    let old_password=$("#password_old").val()
+    let password=$("#password").val()
+    let password_twice=$("#password_twice").val()
+    if (old_password===""||password===""||password_twice===""){
+        mdui.alert("有空项")
+        return
+    }
+    if (password.length<8){
+        mdui.alert("您的密码需要超过八位","抱歉")
+        return
+    }
+
+    if (password!==password_twice){
+        mdui.alert("您两次密码输入不一致！","抱歉")
+        return
+    }
+
+    password=md5(password)
+    old_password=md5(old_password)
+
+    $.ajax({
+        url:api,
+        method:"post",
+        dataType:"json",
+        data:{
+            "function":"update_admin_password",
+            "old_password":old_password,
+            "password":password
+        },
+        success:function (result){
+            if (result.data.is_succeed==="true"){
+                document.cookie = "token" + "=" + "" + "; " + "-1";
+                mdui.alert('修改成功，已自动退出，请重新登录', '成功', function(){
+                    window.location.href='login.html';
+                });
+            }else{
+                mdui.alert(result.data.error_cause,"抱歉");
+            }
+        },
+        error:function (){
+            mdui.alert("服务器错误","抱歉")
+        }
+    })
+
+}
